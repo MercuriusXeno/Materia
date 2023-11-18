@@ -1,0 +1,29 @@
+{
+  "compounds": [
+    {
+      "type": "materia:geo",
+      "amount": 8.0
+    },
+    {
+      "type": "materia:pyro",
+      "amount": 12.0
+    }
+  ],
+  "mode": "ADDITIVE",
+  "targets": [
+    {
+      "type": "aequivaleo:item",
+      "data": {
+        "count": 1.0,
+        "item": "minecraft:lava_bucket"
+      }
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "data": {
+        "count": 1.0,
+        "stack": "{Count:1b,id:\"minecraft:lava_bucket\"}"
+      }
+    }
+  ]
+}

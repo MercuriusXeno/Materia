@@ -1,0 +1,37 @@
+{
+  "compounds": [
+    {
+      "type": "materia:denied",
+      "amount": 1.0
+    },
+    {
+      "type": "materia:phasmo",
+      "amount": 64.0
+    },
+    {
+      "type": "materia:photo",
+      "amount": 64.0
+    },
+    {
+      "type": "materia:proto",
+      "amount": 4.0
+    }
+  ],
+  "mode": "ADDITIVE",
+  "targets": [
+    {
+      "type": "aequivaleo:item",
+      "data": {
+        "count": 1.0,
+        "item": "minecraft:nether_star"
+      }
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "data": {
+        "count": 1.0,
+        "stack": "{Count:1b,id:\"minecraft:nether_star\"}"
+      }
+    }
+  ]
+}
