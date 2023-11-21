@@ -1,4 +1,4 @@
-package com.xeno.materia.client;
+package com.xeno.materia.client.radial;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -95,6 +95,7 @@ public class GuiRadialMenu<T> extends Screen {
 		float radiusIn = Math.max(0.1f, 45 * animProgress);
 		float radiusOut = radiusIn * 2;
 		float itemRadius = (radiusIn + radiusOut) * 0.5f;
+		float percentRadius = (radiusIn + radiusOut) * 0.65f;
 
 		int centerOfScreenX = width / 2;
 		int centerOfScreenY = height / 2;
@@ -146,10 +147,15 @@ public class GuiRadialMenu<T> extends Screen {
 
 		tessellator.end();
 		RenderSystem.disableBlend();
+		// this used to be lower (~177 but I found I needed it to avoid some weird zfighting on the %s and text showing)
+		RenderSystem.disableDepthTest();
 		if (hasMouseOver && mousedOverSlot != -1) {
 			int adjusted = ((mousedOverSlot + (numberOfSlices / 2 + 1)) % numberOfSlices) - 1;
 			adjusted = adjusted == -1 ? numberOfSlices - 1 : adjusted;
-			graphics.drawCenteredString(font, radialMenuSlots.get(adjusted).slotName(), width / 2, (height - font.lineHeight) / 2, 16777215);
+			graphics.drawCenteredString(font, radialMenuSlots.get(adjusted)
+					.slotName(), width / 2, (height - font.lineHeight) / 2, 16777215);
+			graphics.drawCenteredString(font, radialMenuSlots.get(adjusted)
+					.display(), width / 2, (height + font.lineHeight * 4) / 2, 16777215);
 		}
 
 		ms.popPose();
@@ -161,7 +167,15 @@ public class GuiRadialMenu<T> extends Screen {
 			}
 			float posX = centerOfScreenX - 8 + itemRadius * (float) Math.cos(angle1);
 			float posY = centerOfScreenY - 8 + itemRadius * (float) Math.sin(angle1);
-			RenderSystem.disableDepthTest();
+			float percentPosX = centerOfScreenX - 8 + percentRadius * (float) Math.cos(angle1);
+			float percentPosY = centerOfScreenY - 8 + percentRadius * (float) Math.sin(angle1);
+			// offset the percent coords because centered strings seem to align to the bottom rightmost pixel
+			// of the string rather than, as the name implies, centering them? I don't really understand why
+			// this is named centered. It's not even remotely centered on the coords provided, that's not what it does.
+			// so the offset by half the font width again seems to fix this dumb bullshit, but I kind of hate it here.
+			graphics.drawCenteredString(font, radialMenuSlots.get(i).percent(),
+					(int)percentPosX + (font.width(radialMenuSlots.get(i).percent()) / 2),
+					(int)percentPosY + (font.lineHeight / 2), 16777215);
 
 			//            graphics.renderItem(new ItemStack(Items.DIAMOND_PICKAXE), (int) posX, (int) posY);
 			T primarySlotIcon = radialMenuSlots.get(i).primarySlotIcon();

@@ -1,4 +1,4 @@
-package com.xeno.materia.client;
+package com.xeno.materia.client.keys;
 
 import com.xeno.materia.MateriaMod;
 import net.minecraft.client.KeyMapping;

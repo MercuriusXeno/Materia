@@ -1,4 +1,4 @@
-package com.xeno.materia.client;
+package com.xeno.materia.client.radial;
 public enum SecondaryIconPosition {
 	NORTH, EAST, SOUTH, WEST;
 

@@ -1,4 +1,4 @@
-package com.xeno.materia.client;
+package com.xeno.materia.client.radial;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;

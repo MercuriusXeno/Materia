@@ -19,6 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class MateriaRegistry {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MateriaMod.ID);
@@ -38,11 +39,13 @@ public class MateriaRegistry {
 				.register(name, () -> new MateriaCompoundType(materiaEnum, MATERIA_TYPES, representativeItem));
 		MATERIA.put(materiaEnum, result);
 		MATERIA_NAMES.put(result.getId(), materiaEnum);
+		MATERIA_VALUES.put(materiaEnum.getValue(), materiaEnum);
 		return result;
 	}
 
 	public static final HashMap<MateriaEnum, RegistryObject<ICompoundType>> MATERIA = new HashMap<>();
 	public static final HashMap<ResourceLocation, MateriaEnum> MATERIA_NAMES = new HashMap<>();
+	public static final HashMap<Integer, MateriaEnum> MATERIA_VALUES = new HashMap<>();
 	public static final RegistryObject<ICompoundType> CRYO = registerMateria("cryo", MateriaEnum.CRYO, Items.SNOWBALL);
 	public static final RegistryObject<ICompoundType> PYRO = registerMateria("pyro", MateriaEnum.PYRO, Items.BLAZE_POWDER);
 	public static final RegistryObject<ICompoundType> MYCO = registerMateria("myco", MateriaEnum.MYCO, Items.BROWN_MUSHROOM);

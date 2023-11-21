@@ -1,4 +1,4 @@
-package com.xeno.materia.common;
+package com.xeno.materia.common.packets;
 
 public class PacketDoMateriaThing
 {

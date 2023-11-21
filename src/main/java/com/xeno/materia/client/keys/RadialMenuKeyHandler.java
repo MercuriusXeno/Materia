@@ -1,9 +1,14 @@
-package com.xeno.materia.client;
+package com.xeno.materia.client.keys;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.xeno.materia.common.IMateriaCarrierCapability;
-import com.xeno.materia.common.MateriaCapabilities;
+import com.xeno.materia.client.*;
+import com.xeno.materia.client.radial.GuiRadialMenu;
+import com.xeno.materia.client.radial.MateriaSlotData;
+import com.xeno.materia.client.radial.RadialMenu;
+import com.xeno.materia.client.radial.RadialMenuSlot;
+import com.xeno.materia.common.capabilities.MateriaCapability;
 import com.xeno.materia.common.MateriaEnum;
+import com.xeno.materia.common.capabilities.MateriaCapabilityImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.entity.player.Player;
@@ -62,18 +67,23 @@ public class RadialMenuKeyHandler
 	public static List<RadialMenuSlot<MateriaSlotData>> getMateriaSlotDataFromPlayerCapability(Player player)
 	{
 		var result = new ArrayList<RadialMenuSlot<MateriaSlotData>>();
-		player.getCapability(MateriaCapabilities.MATERIA).ifPresent(c -> deserializePlayerCapabilityToMateriaData(c, result));
+		player.getCapability(MateriaCapabilityImpl.MATERIA).ifPresent(c -> deserializePlayerCapabilityToMateriaData(c, result));
 		return result;
 	}
 
-	private static void deserializePlayerCapabilityToMateriaData(IMateriaCarrierCapability c, List<RadialMenuSlot<MateriaSlotData>> result)
+	private static void deserializePlayerCapabilityToMateriaData(MateriaCapability c, List<RadialMenuSlot<MateriaSlotData>> result)
 	{
-		c.getStock().forEach((e, v) -> result.add(convertStockToSlot(e, v)));
+		if (!c.getStock().isEmpty())
+		{
+			c.getStock().forEach((e, v) -> result.add(convertStockToSlot(c, e)));
+		}
 	}
 
-	private static RadialMenuSlot<MateriaSlotData> convertStockToSlot(MateriaEnum e, Long v)
+	private static RadialMenuSlot<MateriaSlotData> convertStockToSlot(MateriaCapability c, MateriaEnum e)
 	{
-		// base slots are those that are just.. materia defined. They're not abilities, they're categories of abilities. You step into them.
-		return new RadialMenuSlot<MateriaSlotData>(e.name(), new MateriaSlotData(e.name(), e.getValue(), e.getRepresentative(), v));
+		// Base slots are those that are just materia-defined.
+		// They're not abilities, they're categories of abilities. You step into them.
+		var slotData = new MateriaSlotData(e.name(), e.getValue(), e.getRepresentative(), c.getMateria(e), c.getLimit(e));
+		return new RadialMenuSlot<>(e.name(), e.getDisplay(c), e.getPercent(c), slotData);
 	}
 }

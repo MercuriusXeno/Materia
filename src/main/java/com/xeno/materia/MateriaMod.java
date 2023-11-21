@@ -5,17 +5,13 @@ import com.ldtteam.aequivaleo.api.analysis.AnalysisState;
 import com.ldtteam.aequivaleo.api.compound.CompoundInstance;
 import com.ldtteam.aequivaleo.api.results.IEquivalencyResults;
 import com.mojang.logging.LogUtils;
-import com.xeno.materia.aeq.MateriaCompoundType;
 import com.xeno.materia.client.MateriaTooltipEventHandler;
-import com.xeno.materia.common.MateriaCapabilities;
 import com.xeno.materia.common.MateriaConfig;
-import com.xeno.materia.common.MateriaNetworking;
+import com.xeno.materia.common.packets.MateriaNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -41,8 +37,9 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Set;
+import java.util.UUID;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(MateriaMod.ID)
@@ -106,6 +103,13 @@ public class MateriaMod
     {
         return Minecraft.getInstance().level != null &&
                 IAequivaleoAPI.getInstance().getState(Minecraft.getInstance().level.dimension()) == AnalysisState.COMPLETED;
+    }
+
+    public static void debug(String ... sArgs)
+    {
+        // noop
+        var joined = String.join(", ", sArgs);
+        LOGGER.debug(joined);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)

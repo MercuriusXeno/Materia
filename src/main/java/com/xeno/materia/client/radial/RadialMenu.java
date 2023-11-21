@@ -1,4 +1,4 @@
-package com.xeno.materia.client;
+package com.xeno.materia.client.radial;
 
 import net.minecraft.client.gui.GuiGraphics;
 

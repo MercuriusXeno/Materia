@@ -1,6 +1,7 @@
 package com.xeno.materia.client;
 
 import com.xeno.materia.MateriaMod;
+import com.xeno.materia.client.radial.GuiRadialMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;

@@ -1,4 +1,4 @@
-package com.xeno.materia.common;
+package com.xeno.materia.common.packets;
 import com.xeno.materia.MateriaMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -26,8 +26,11 @@ public class MateriaNetworking
 	public static void registerMessages()
 	{
 		INSTANCE = NetworkRegistry.newSimpleChannel(new ResourceLocation(MateriaMod.ID, "network"), () -> "1.0", s -> true, s -> true);
-		// INSTANCE.registerMessage(nextID(), ChangeBiomePacket.class, ChangeBiomePacket::encode, ChangeBiomePacket::new, ChangeBiomePacket.Handler::onMessage);
+
 		INSTANCE.registerMessage(nextID(), GeophagiaPacket.class, GeophagiaPacket::encode, GeophagiaPacket::new, GeophagiaPacket.Handler::onMessage);
+		INSTANCE.registerMessage(nextID(), MateriaUpdatePacket.class, MateriaUpdatePacket::encode, MateriaUpdatePacket::new, MateriaUpdatePacket.Handler::onMessage);
+		INSTANCE.registerMessage(nextID(), MateriaSyncPacket.class, MateriaSyncPacket::encode, MateriaSyncPacket::new, MateriaSyncPacket.Handler::onMessage);
+		INSTANCE.registerMessage(nextID(), MateriaLimitUpdatePacket.class, MateriaLimitUpdatePacket::encode, MateriaLimitUpdatePacket::new, MateriaLimitUpdatePacket.Handler::onMessage);
 	}
 
 	public static void sendToNearby(Level world, BlockPos pos, Object toSend)
@@ -48,7 +51,9 @@ public class MateriaNetworking
 
 	public static void sendToPlayerClient(Object msg, ServerPlayer player)
 	{
-
+		if (player.connection == null) {
+			return;
+		}
 		INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), msg);
 	}
 

@@ -2,6 +2,8 @@ package com.xeno.materia.client;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.xeno.materia.client.radial.MateriaSlotData;
+import com.xeno.materia.client.radial.TintedVertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
