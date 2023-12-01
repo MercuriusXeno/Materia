@@ -1,16 +1,16 @@
 {
   "compounds": [
     {
-      "type": "materia:chloro",
-      "amount": 4.0
+      "type": "materia:absorb_only",
+      "amount": 60.0
     },
     {
-      "type": "materia:denied",
-      "amount": 1.0
+      "type": "materia:chloro",
+      "amount": 120.0
     },
     {
       "type": "materia:myco",
-      "amount": 4.0
+      "amount": 120.0
     }
   ],
   "mode": "ADDITIVE",

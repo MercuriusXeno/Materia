@@ -1,7 +1,7 @@
 {
   "compounds": {
     "type": "materia:myco",
-    "amount": 4.0
+    "amount": 120.0
   },
   "mode": "ADDITIVE",
   "targets": [

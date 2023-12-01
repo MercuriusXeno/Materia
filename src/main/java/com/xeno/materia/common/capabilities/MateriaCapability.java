@@ -18,10 +18,8 @@ public interface MateriaCapability extends INBTSerializable<CompoundTag>
 	TreeMap<MateriaEnum, Long> getStock();
 	long getMateria(MateriaEnum type);
 	long setMateria(MateriaEnum type, long i);
-	boolean hasMateria(MateriaEnum type, long i);
 	long getLimit(MateriaEnum type);
 	long setLimit(MateriaEnum type, long i);
 	void doDeathPenalty();
-	void doOverflow(MateriaEnum type, long overflow);
 	void absorbMateria(HashMap<ResourceLocation, Double> materiaValues);
 }

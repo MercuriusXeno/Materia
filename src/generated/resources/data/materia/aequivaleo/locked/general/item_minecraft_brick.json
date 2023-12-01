@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:geo",
-      "amount": 8.0
+      "amount": 120.0
     },
     {
       "type": "materia:pyro",
-      "amount": 1.0
+      "amount": 60.0
     }
   ],
   "mode": "ADDITIVE",

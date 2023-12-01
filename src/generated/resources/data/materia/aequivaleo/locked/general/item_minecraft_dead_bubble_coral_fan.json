@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:chloro",
-      "amount": 1.0
+      "amount": 60.0
     },
     {
       "type": "materia:hydro",
-      "amount": 1.0
+      "amount": 60.0
     }
   ],
   "mode": "ADDITIVE",

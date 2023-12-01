@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:gemma",
-      "amount": 4.0
+      "amount": 120.0
     },
     {
       "type": "materia:phasmo",
-      "amount": 4.0
+      "amount": 120.0
     }
   ],
   "mode": "ADDITIVE",

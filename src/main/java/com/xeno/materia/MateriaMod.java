@@ -3,8 +3,8 @@ package com.xeno.materia;
 import com.ldtteam.aequivaleo.api.IAequivaleoAPI;
 import com.ldtteam.aequivaleo.api.analysis.AnalysisState;
 import com.ldtteam.aequivaleo.api.compound.CompoundInstance;
-import com.ldtteam.aequivaleo.api.results.IEquivalencyResults;
 import com.mojang.logging.LogUtils;
+import com.xeno.materia.aeq.MateriaAequivaleoPlugin;
 import com.xeno.materia.client.MateriaTooltipEventHandler;
 import com.xeno.materia.common.MateriaConfig;
 import com.xeno.materia.common.packets.MateriaNetworking;
@@ -37,9 +37,7 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.util.Arrays;
 import java.util.Set;
-import java.util.UUID;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(MateriaMod.ID)
@@ -56,22 +54,25 @@ public class MateriaMod
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "materia" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ID);
 
+    // I commented these out because I don't have items or blocks (yet? at all? idk)
+    // so I may need this later, but idk.
+
     // Creates a new Block with the id "materia:example_block", combining the namespace and path
-    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
+    // public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
     // Creates a new BlockItem with the id "materia:example_block", combining the namespace and path
-    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
+    // public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
     // Creates a new food item with the id "materia:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEat().nutrition(1).saturationMod(2f).build())));
+    //public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
+    //        .alwaysEat().nutrition(1).saturationMod(2f).build())));
 
-    // Creates a creative tab with the id "materia:example_tab" for the example item, that is placed after the combat tab
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
+//    // Creates a creative tab with the id "materia:example_tab" for the example item, that is placed after the combat tab
+//    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
+//            .withTabsBefore(CreativeModeTabs.COMBAT)
+//            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+//            .displayItems((parameters, output) -> {
+//                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+//            }).build());
 
     public MateriaMod()
     {
@@ -164,18 +165,6 @@ public class MateriaMod
 
             MateriaTooltipEventHandler.handle(event);
         }
-    }
-
-    @NotNull
-    public static Set<CompoundInstance> getEquivalency(ItemStack stack)
-    {
-        return getEquivalency(stack.getItem());
-    }
-
-    @NotNull
-    public static Set<CompoundInstance> getEquivalency(Item item)
-    {
-        return IEquivalencyResults.getInstance(MateriaMod.getClientPlayerDimension()).dataFor(item);
     }
 
     public static ResourceKey<Level> getClientPlayerDimension()

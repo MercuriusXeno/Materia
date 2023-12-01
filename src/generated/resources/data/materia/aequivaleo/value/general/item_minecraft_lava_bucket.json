@@ -1,12 +1,12 @@
 {
   "compounds": [
     {
-      "type": "materia:geo",
-      "amount": 8.0
+      "type": "materia:oricho",
+      "amount": 1620.0
     },
     {
       "type": "materia:pyro",
-      "amount": 12.0
+      "amount": 1000.0
     }
   ],
   "mode": "ADDITIVE",

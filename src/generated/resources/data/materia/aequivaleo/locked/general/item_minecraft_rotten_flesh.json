@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:krea",
-      "amount": 4.0
+      "amount": 120.0
     },
     {
       "type": "materia:proto",
-      "amount": 1.0
+      "amount": 60.0
     }
   ],
   "mode": "ADDITIVE",

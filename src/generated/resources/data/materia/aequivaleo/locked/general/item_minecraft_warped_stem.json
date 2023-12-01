@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:myco",
-      "amount": 48.0
+      "amount": 384.0
     },
     {
       "type": "materia:xylo",
-      "amount": 48.0
+      "amount": 384.0
     }
   ],
   "mode": "ADDITIVE",

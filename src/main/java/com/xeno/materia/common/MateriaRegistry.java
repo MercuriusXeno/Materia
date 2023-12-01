@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -19,7 +18,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class MateriaRegistry {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MateriaMod.ID);
@@ -62,7 +60,7 @@ public class MateriaRegistry {
 	public static final RegistryObject<ICompoundType> CHLORO = registerMateria("chloro", MateriaEnum.CHLORO, Items.FERN);
 	public static final RegistryObject<ICompoundType> ELECTRO = registerMateria("electro", MateriaEnum.ELECTRO, Items.REDSTONE);
 	public static final RegistryObject<ICompoundType> PHASMO = registerMateria("phasmo", MateriaEnum.PHASMO, Items.GHAST_TEAR);
-	public static final RegistryObject<ICompoundType> DENIED = registerMateria("denied", MateriaEnum.DENIED, Items.AIR);
+	public static final RegistryObject<ICompoundType> ABSORB_ONLY = registerMateria("denied", MateriaEnum.ABSORB_ONLY, Items.AIR);
 
 	public static void init() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

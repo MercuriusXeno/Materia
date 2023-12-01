@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:aero",
-      "amount": 1.0
+      "amount": 60.0
     },
     {
       "type": "materia:myco",
-      "amount": 4.0
+      "amount": 120.0
     }
   ],
   "mode": "ADDITIVE",

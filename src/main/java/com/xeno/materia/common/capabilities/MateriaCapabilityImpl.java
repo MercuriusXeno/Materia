@@ -56,7 +56,7 @@ public class MateriaCapabilityImpl implements MateriaCapability
 
     private void primeMateriaDefault(MateriaEnum k, RegistryObject<ICompoundType> v)
     {
-        if (k == MateriaEnum.DENIED)
+        if (k == MateriaEnum.ABSORB_ONLY)
         {
             return;
         }
@@ -99,11 +99,7 @@ public class MateriaCapabilityImpl implements MateriaCapability
             return i;
         }
         var delta = i - was;
-        doMateriaGrowth(type, delta);
-//        else if (player instanceof LocalPlayer)
-//        {
-//            // Minecraft.getInstance().getToasts().addToast(new MateriaPickupToast(type, delta, getLimit(type)));
-//        }
+        var growth = getMateriaGrowthFromDelta(delta);
 
         // fire an update event server side that syncs packets back to client about how much materia they now have.
         updateMateriaAmount(type, i);
@@ -111,17 +107,21 @@ public class MateriaCapabilityImpl implements MateriaCapability
         var overflow = i - getLimit(type);
         if (overflow > 0)
         {
-            doOverflow(type, overflow);
+            growth += getMateriaGrowthFromOverflow(overflow);
+            i -= overflow; // i is less the overflow.
+        }
+
+        if (growth > 0) {
+            doGrowth(type, growth);
         }
 
         stock.put(type, Math.min(getLimit(type), i));
-
         return stock.get(type);
     }
 
-    private void doMateriaGrowth(MateriaEnum type, long delta)
+    private void doGrowth(MateriaEnum type, Long growth)
     {
-        addLimit(type, getMateriaGrowthFromDelta(delta));
+        addLimit(type, growth);
     }
 
     private Long getMateriaGrowthFromDelta(long delta)
@@ -161,11 +161,10 @@ public class MateriaCapabilityImpl implements MateriaCapability
         return setMateria(type, getMateria(type) + i);
     }
 
-    @Override
-    public void doOverflow(MateriaEnum type, long overflow)
+    public long getMateriaGrowthFromOverflow(long overflow)
     {
         // formulas here need adjustment and the negative effects are still todo same as the baseline materia growth
-        addLimit(type, getMateriaGrowthFromDelta((long)Math.floor(overflow * MateriaConfig.overflowMateriaGrowth)));
+        return (long)Math.floor(overflow * MateriaConfig.overflowMateriaGrowth);
     }
 
     @Override
@@ -198,12 +197,6 @@ public class MateriaCapabilityImpl implements MateriaCapability
         }
         var materiaEnum = MateriaRegistry.MATERIA_NAMES.get(resourceLocation);
         addMateria(materiaEnum, (long) Math.floor(aDouble));
-    }
-
-    @Override
-    public boolean hasMateria(MateriaEnum type, long i)
-    {
-        return stock.containsKey(type);
     }
 
     @Override

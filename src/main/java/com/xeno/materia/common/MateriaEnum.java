@@ -2,17 +2,11 @@ package com.xeno.materia.common;
 
 import com.xeno.materia.common.capabilities.MateriaCapability;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.client.model.DynamicFluidContainerModel;
-import org.jline.utils.Colors;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public enum MateriaEnum implements Comparable<MateriaEnum>
 {
-    DENIED(-1, ItemStack.EMPTY),
+    ABSORB_ONLY(-1, ItemStack.EMPTY),
     CRYO(0, new ItemStack(Blocks.BLUE_ICE)),
     PYRO(1, new ItemStack(Blocks.MAGMA_BLOCK)),
     MYCO(2, new ItemStack(Blocks.MYCELIUM)),
@@ -52,11 +46,6 @@ public enum MateriaEnum implements Comparable<MateriaEnum>
     public String getDisplay(long amount, long limit)
     {
         return String.format("%d / %d", amount, limit);
-    }
-
-    public String getPercent(long amount, long limit)
-    {
-        return String.format("%.1f %%", limit > 0 ? (amount * 100.0f / limit) : 0f);
     }
 
     public String getBasicPercent(long amount, long limit)

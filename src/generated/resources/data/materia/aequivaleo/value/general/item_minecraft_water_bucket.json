@@ -1,8 +1,14 @@
 {
-  "compounds": {
-    "type": "materia:hydro",
-    "amount": 12.0
-  },
+  "compounds": [
+    {
+      "type": "materia:hydro",
+      "amount": 1000.0
+    },
+    {
+      "type": "materia:oricho",
+      "amount": 1620.0
+    }
+  ],
   "mode": "ADDITIVE",
   "targets": [
     {

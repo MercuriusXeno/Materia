@@ -28,7 +28,14 @@ public class GeophageKeyHandler
 	private static void doGeophagia()
 	{
 		var player = Minecraft.getInstance().player;
-		var hit = ClientUtils.getPlayerPOVHitResult(player.level(), player, ClipContext.Fluid.ANY); // unsure about fluid thing here.
+		// the "none" here means we're pretending we have an empty bucket. The reason this matters is
+		// we can't pick up fluids or use geophage on fluids unless we pretend our fake bucket is empty first.
+		BlockHitResult hit = ClientUtils.getPlayerPOVHitResult(player.level(), player, ClipContext.Fluid.SOURCE_ONLY);;
+		var fluidMaybe = player.level().getBlockState(hit.getBlockPos());
+		if (fluidMaybe.isAir()) {
+			hit = ClientUtils.getPlayerPOVHitResult(player.level(), player, ClipContext.Fluid.NONE);
+		}
+
 		MateriaNetworking.sendToServer(new GeophagiaPacket(hit.getBlockPos()));
 	}
 

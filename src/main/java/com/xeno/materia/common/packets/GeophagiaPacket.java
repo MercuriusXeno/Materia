@@ -1,6 +1,7 @@
 package com.xeno.materia.common.packets;
 
 import com.xeno.materia.MateriaMod;
+import com.xeno.materia.aeq.MateriaAequivaleoPlugin;
 import com.xeno.materia.common.capabilities.MateriaCapability;
 import com.xeno.materia.common.capabilities.MateriaCapabilityImpl;
 import net.minecraft.core.BlockPos;
@@ -81,7 +82,7 @@ public class GeophagiaPacket
         var result = new HashMap<ResourceLocation, Double>();
         for (var drop : drops)
         {
-            var materiaValue = MateriaMod.getEquivalency(drop.getItem());
+            var materiaValue = MateriaAequivaleoPlugin.getEquivalency(drop);
             if (materiaValue.isEmpty())
             {
                 continue;

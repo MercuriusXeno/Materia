@@ -1,7 +1,7 @@
 {
   "compounds": {
     "type": "materia:cryo",
-    "amount": 1.0
+    "amount": 60.0
   },
   "mode": "ADDITIVE",
   "targets": [

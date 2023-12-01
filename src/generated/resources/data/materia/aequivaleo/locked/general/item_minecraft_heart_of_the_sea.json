@@ -1,8 +1,8 @@
 {
   "compounds": [
     {
-      "type": "materia:denied",
-      "amount": 1.0
+      "type": "materia:absorb_only",
+      "amount": 60.0
     },
     {
       "type": "materia:hydro",
@@ -10,7 +10,7 @@
     },
     {
       "type": "materia:proto",
-      "amount": 4.0
+      "amount": 120.0
     }
   ],
   "mode": "ADDITIVE",

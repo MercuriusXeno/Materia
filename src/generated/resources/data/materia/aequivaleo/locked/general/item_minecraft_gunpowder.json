@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:dyna",
-      "amount": 4.0
+      "amount": 120.0
     },
     {
       "type": "materia:pyro",
-      "amount": 4.0
+      "amount": 120.0
     }
   ],
   "mode": "ADDITIVE",

@@ -1,7 +1,7 @@
 {
   "compounds": {
     "type": "materia:xylo",
-    "amount": 3.0
+    "amount": 24.0
   },
   "mode": "ADDITIVE",
   "targets": [
