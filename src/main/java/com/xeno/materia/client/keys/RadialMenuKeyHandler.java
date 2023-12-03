@@ -48,7 +48,7 @@ public class RadialMenuKeyHandler
 
 	public static boolean isRadialKeyPressed(Key eventKey)
 	{
-		return eventKey.getKey() == ModKeyBindings.OPEN_RADIAL_HUD.getKey().getValue() &&
+		return eventKey.getKey() == ModKeyBindings.OPEN_RADIAL_HUD_KEY.getKey().getValue() &&
 			eventKey.getAction() == InputConstants.PRESS;
 	}
 
@@ -67,11 +67,11 @@ public class RadialMenuKeyHandler
 	public static List<RadialMenuSlot<MateriaSlotData>> getMateriaSlotDataFromPlayerCapability(Player player)
 	{
 		var result = new ArrayList<RadialMenuSlot<MateriaSlotData>>();
-		player.getCapability(MateriaCapabilityImpl.MATERIA).ifPresent(c -> deserializePlayerCapabilityToMateriaData(c, result));
+		player.getCapability(MateriaCapabilityImpl.MATERIA).ifPresent(c -> injectMateriaSlotDataResults(c, result));
 		return result;
 	}
 
-	private static void deserializePlayerCapabilityToMateriaData(MateriaCapability c, List<RadialMenuSlot<MateriaSlotData>> result)
+	private static void injectMateriaSlotDataResults(MateriaCapability c, List<RadialMenuSlot<MateriaSlotData>> result)
 	{
 		if (!c.getStock().isEmpty())
 		{

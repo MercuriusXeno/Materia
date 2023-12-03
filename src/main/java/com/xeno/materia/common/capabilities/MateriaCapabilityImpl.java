@@ -15,7 +15,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,6 +22,7 @@ import java.util.TreeMap;
 
 public class MateriaCapabilityImpl implements MateriaCapability
 {
+    private static final long LIMIT_INCREMENT_AMOUNT = 100;
     public static Capability<MateriaCapability> MATERIA = CapabilityManager.get(new CapabilityToken<>()
     {
     });
@@ -42,12 +42,6 @@ public class MateriaCapabilityImpl implements MateriaCapability
         setDefaults();
     }
 
-    private void loadFromCap(@NotNull MateriaCapability materiaCapability)
-    {
-        materiaCapability.getStock().forEach(this::setMateria);
-        materiaCapability.getLimits().forEach(this::setLimit);
-    }
-
     private void setDefaults()
     {
         // prime defaults
@@ -56,7 +50,7 @@ public class MateriaCapabilityImpl implements MateriaCapability
 
     private void primeMateriaDefault(MateriaEnum k, RegistryObject<ICompoundType> v)
     {
-        if (k == MateriaEnum.ABSORB_ONLY)
+        if (k == MateriaEnum.DENIED)
         {
             return;
         }
@@ -98,22 +92,9 @@ public class MateriaCapabilityImpl implements MateriaCapability
         {
             return i;
         }
-        var delta = i - was;
-        var growth = getMateriaGrowthFromDelta(delta);
 
         // fire an update event server side that syncs packets back to client about how much materia they now have.
         updateMateriaAmount(type, i);
-
-        var overflow = i - getLimit(type);
-        if (overflow > 0)
-        {
-            growth += getMateriaGrowthFromOverflow(overflow);
-            i -= overflow; // i is less the overflow.
-        }
-
-        if (growth > 0) {
-            doGrowth(type, growth);
-        }
 
         stock.put(type, Math.min(getLimit(type), i));
         return stock.get(type);
@@ -122,11 +103,6 @@ public class MateriaCapabilityImpl implements MateriaCapability
     private void doGrowth(MateriaEnum type, Long growth)
     {
         addLimit(type, growth);
-    }
-
-    private Long getMateriaGrowthFromDelta(long delta)
-    {
-        return (long) Math.floor(Math.sqrt(delta)); // wip winging it, not a real thing, probably gonna make this config
     }
 
     @Override
@@ -151,6 +127,12 @@ public class MateriaCapabilityImpl implements MateriaCapability
         return limits.get(type);
     }
 
+    @Override
+    public long getRoomLeft(MateriaEnum type)
+    {
+        return getLimit(type) - getMateria(type);
+    }
+
     private long addLimit(MateriaEnum type, long i)
     {
         return setLimit(type, getLimit(type) + i);
@@ -161,16 +143,33 @@ public class MateriaCapabilityImpl implements MateriaCapability
         return setMateria(type, getMateria(type) + i);
     }
 
-    public long getMateriaGrowthFromOverflow(long overflow)
-    {
-        // formulas here need adjustment and the negative effects are still todo same as the baseline materia growth
-        return (long)Math.floor(overflow * MateriaConfig.overflowMateriaGrowth);
-    }
-
     @Override
     public void absorbMateria(HashMap<ResourceLocation, Double> materiaValues)
     {
         materiaValues.forEach(this::absorbMateria);
+    }
+
+    @Override
+    public void changeMateria(MateriaEnum materiaByCompoundType, long amount)
+    {
+        setMateria(materiaByCompoundType, getMateria(materiaByCompoundType) + amount);
+    }
+
+    @Override
+    public void zeroMateria(MateriaEnum type)
+    {
+        setMateria(type, 0);
+    }
+
+    @Override
+    public void incrementLimit(MateriaEnum type)
+    {
+        setLimit(type, throttleLimitToNearestWholeValue(getLimit(type) + LIMIT_INCREMENT_AMOUNT));
+    }
+
+    private long throttleLimitToNearestWholeValue(long l)
+    {
+        return l - (l % 100);
     }
 
     public void updateMateriaAmount(MateriaEnum type, long i)
@@ -202,15 +201,14 @@ public class MateriaCapabilityImpl implements MateriaCapability
     @Override
     public void doDeathPenalty()
     {
-        limits.forEach((k, v) -> limits.put(k, (long) Math.floor(v * MateriaConfig.lossOfLimitOnDeath)));
-        stock.forEach((k, v) -> stock.put(k, (long) Math.floor(v * MateriaConfig.lossOfMateriaOnDeath)));
+        // NOOP
     }
 
     @Override
     public CompoundTag serializeNBT()
     {
         var tag = new CompoundTag();
-        getLimits().forEach((k, v) -> tag.putLong( k.name() + "_limit", v));
+        getLimits().forEach((k, v) -> tag.putLong(k.name() + "_limit", v));
         getStock().forEach((k, v) -> tag.putLong(k.name(), v));
         return tag;
     }

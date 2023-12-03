@@ -1,11 +1,9 @@
-package com.xeno.materia.common.packets;
+package com.xeno.materia.common;
 
 import com.xeno.materia.MateriaMod;
-import com.xeno.materia.aeq.MateriaAequivaleoPlugin;
+import com.xeno.materia.aeq.MateriaEquivalency;
 import com.xeno.materia.common.capabilities.MateriaCapability;
-import com.xeno.materia.common.capabilities.MateriaCapabilityImpl;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -15,66 +13,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.Supplier;
 
-public class GeophagiaPacket
+public class MateriaBlockHandler
 {
-    private final BlockPos pos;
-
-    public GeophagiaPacket(BlockPos pos)
-    {
-        this.pos = pos;
-    }
-
-    public GeophagiaPacket(FriendlyByteBuf buf)
-    {
-        this.pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
-    }
-
-    public void encode(FriendlyByteBuf buf)
-    {
-        buf.writeInt(this.pos.getX());
-        buf.writeInt(this.pos.getY());
-        buf.writeInt(this.pos.getZ());
-    }
-
-    public class Handler
-    {
-        public static boolean onMessage(GeophagiaPacket message, Supplier<NetworkEvent.Context> ctx)
-        {
-            ctx.get().enqueueWork(() -> handle(message, ctx));
-
-            ctx.get().setPacketHandled(true);
-            return true;
-        }
-
-        private static void handle(GeophagiaPacket message, Supplier<NetworkEvent.Context> ctx)
-        {
-            var player = ctx.get().getSender();
-            if (player == null)
-            {
-                return;
-            }
-
-            var thing = player.level().getBlockState(message.pos);
-            // absolutely not. I will not eat inventories, and I don't care if sometimes things are just weirdly inedible.
-            // it's better to be safe here.
-            if (thing.hasBlockEntity())
-            {
-                return;
-            }
-            var lParams = buildLootParams(player);
-            var drops = thing.getDrops(lParams);
-            var materiaFromDrops = getMateriaFromDrops(drops);
-
-            var cap = player.getCapability(MateriaCapabilityImpl.MATERIA);
-            cap.ifPresent(c -> doBlockAbsorb(player.level(), message.pos, thing, c, materiaFromDrops));
-        }
-    }
 
     private static HashMap<ResourceLocation, Double> getMateriaFromDrops(List<ItemStack> drops)
     {
@@ -82,7 +26,7 @@ public class GeophagiaPacket
         var result = new HashMap<ResourceLocation, Double>();
         for (var drop : drops)
         {
-            var materiaValue = MateriaAequivaleoPlugin.getEquivalency(drop);
+            var materiaValue = MateriaEquivalency.getEquivalency(drop);
             if (materiaValue.isEmpty())
             {
                 continue;
@@ -103,6 +47,15 @@ public class GeophagiaPacket
         return result;
     }
 
+    /**
+     * Absorbs a block in the world if there is something there, this wound up being deprecated, but I'm hanging onto it
+     * in case I can think of a reason this is helpful.
+     * @param level
+     * @param pos
+     * @param thing
+     * @param cap
+     * @param materiaValues
+     */
     public static void doBlockAbsorb(Level level, BlockPos pos, BlockState thing, MateriaCapability cap,
                                      HashMap<ResourceLocation, Double> materiaValues)
     {
@@ -117,7 +70,12 @@ public class GeophagiaPacket
         cap.absorbMateria(materiaValues);
     }
 
-    private static LootParams.Builder buildLootParams(ServerPlayer pEntity)
+    /**
+     * Builds the loot parameter of the player's main hand which is maybe not always right, but whatever. Fix it later.
+     * @param pEntity The player in scope
+     * @return The loot param builder of the player based on their main hand.
+     */
+    public static LootParams.Builder buildLootParams(ServerPlayer pEntity)
     {
         return new LootParams.Builder(pEntity.serverLevel())
                 .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pEntity.blockPosition()))

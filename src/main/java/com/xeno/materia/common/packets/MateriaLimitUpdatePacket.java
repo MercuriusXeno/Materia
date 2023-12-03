@@ -57,8 +57,8 @@ public class MateriaLimitUpdatePacket
             }
 
             player.getCapability(MateriaCapabilityImpl.MATERIA)
-                    .ifPresent(c -> c.setLimit(MateriaRegistry.MATERIA_VALUES.get(message.materiaEnumValue), message.amount));
-            MateriaMod.debug("limit+ " + MateriaRegistry.MATERIA_VALUES.get(message.materiaEnumValue).name() + " " + message.amount);
+                    .ifPresent(c -> c.setLimit(MateriaEnum.valueMap().get(message.materiaEnumValue), message.amount));
+            MateriaMod.debug("limit+ " + MateriaEnum.valueMap().get(message.materiaEnumValue).name() + " " + message.amount);
         }
     }
 }

@@ -20,6 +20,18 @@ public interface MateriaCapability extends INBTSerializable<CompoundTag>
 	long setMateria(MateriaEnum type, long i);
 	long getLimit(MateriaEnum type);
 	long setLimit(MateriaEnum type, long i);
+	long getRoomLeft(MateriaEnum type);
 	void doDeathPenalty();
 	void absorbMateria(HashMap<ResourceLocation, Double> materiaValues);
+
+	/**
+	 * Change the materia of the capability up or down.
+	 * @param materiaByCompoundType The materia type we're modifying.
+	 * @param amount The amount to change it by.
+	 */
+	void changeMateria(MateriaEnum materiaByCompoundType, long amount);
+
+	void zeroMateria(MateriaEnum type);
+
+	void incrementLimit(MateriaEnum type);
 }

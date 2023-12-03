@@ -2,9 +2,7 @@ package com.xeno.materia;
 
 import com.ldtteam.aequivaleo.api.IAequivaleoAPI;
 import com.ldtteam.aequivaleo.api.analysis.AnalysisState;
-import com.ldtteam.aequivaleo.api.compound.CompoundInstance;
 import com.mojang.logging.LogUtils;
-import com.xeno.materia.aeq.MateriaAequivaleoPlugin;
 import com.xeno.materia.client.MateriaTooltipEventHandler;
 import com.xeno.materia.common.MateriaConfig;
 import com.xeno.materia.common.packets.MateriaNetworking;
@@ -12,12 +10,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -33,11 +28,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-
-import java.util.Set;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(MateriaMod.ID)

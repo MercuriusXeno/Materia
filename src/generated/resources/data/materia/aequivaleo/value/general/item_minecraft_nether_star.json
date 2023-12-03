@@ -1,7 +1,7 @@
 {
   "compounds": [
     {
-      "type": "materia:absorb_only",
+      "type": "materia:denied",
       "amount": 60.0
     },
     {

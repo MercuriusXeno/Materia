@@ -4,9 +4,13 @@ import com.xeno.materia.common.capabilities.MateriaCapability;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum MateriaEnum implements Comparable<MateriaEnum>
 {
-    ABSORB_ONLY(-1, ItemStack.EMPTY),
+    DENIED(-1, ItemStack.EMPTY),
     CRYO(0, new ItemStack(Blocks.BLUE_ICE)),
     PYRO(1, new ItemStack(Blocks.MAGMA_BLOCK)),
     MYCO(2, new ItemStack(Blocks.MYCELIUM)),
@@ -26,6 +30,24 @@ public enum MateriaEnum implements Comparable<MateriaEnum>
 
     private final int value;
     private final ItemStack representative;
+    private static final Map<Integer, MateriaEnum> valueMap = new HashMap<>();
+    public static Map<Integer, MateriaEnum> valueMap()
+    {
+        if (valueMap.isEmpty()) {
+            valueMap.putAll(initializeMappings());
+        }
+        return valueMap;
+    }
+
+    private static Map<Integer, MateriaEnum> initializeMappings()
+    {
+        var result = new HashMap<Integer, MateriaEnum>();
+        for (MateriaEnum value : MateriaEnum.values())
+        {
+            valueMap.put(value.getValue(), value);
+        }
+        return result;
+    }
 
     public int getValue()
     {
@@ -45,7 +67,8 @@ public enum MateriaEnum implements Comparable<MateriaEnum>
 
     public String getDisplay(long amount, long limit)
     {
-        return String.format("%d / %d", amount, limit);
+        return String.format("%s / %s",
+                MateriaUtils.getAmountForDisplay(amount), MateriaUtils.getAmountForDisplay(limit));
     }
 
     public String getBasicPercent(long amount, long limit)
@@ -60,7 +83,8 @@ public enum MateriaEnum implements Comparable<MateriaEnum>
 
     public String getPercent(MateriaCapability c)
     {
-        return getBasicPercent(c.getMateria(this), c.getLimit(this));
+        return getBasicPercent(c.getMateria(this),
+                c.getLimit(this));
     }
 
     public String getToast(long amount, long limit)

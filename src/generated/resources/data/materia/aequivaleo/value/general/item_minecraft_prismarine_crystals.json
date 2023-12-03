@@ -2,7 +2,7 @@
   "compounds": [
     {
       "type": "materia:gemma",
-      "amount": 3.0
+      "amount": 30.0
     },
     {
       "type": "materia:hydro",
@@ -10,7 +10,7 @@
     },
     {
       "type": "materia:photo",
-      "amount": 6.0
+      "amount": 30.0
     }
   ],
   "mode": "ADDITIVE",

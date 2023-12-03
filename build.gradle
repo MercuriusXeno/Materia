@@ -6,6 +6,23 @@ plugins {
     id 'org.parchmentmc.librarian.forgegradle' version '1+'
 }
 
+def secrets = new Properties()
+def secretsFile = file('secrets.properties')
+if (secretsFile.exists()) {
+    secretsFile.withInputStream {
+        stream -> secrets.load(stream)
+    }
+
+    fileTree("secrets").matching {
+        include "**/*.properties"
+    }.each {
+        File file ->
+            file.withInputStream {
+                stream -> secrets.load(stream)
+            }
+    }
+}
+
 version = mod_version
 group = mod_group_id
 

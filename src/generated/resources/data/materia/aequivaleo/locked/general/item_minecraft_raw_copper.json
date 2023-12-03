@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:electro",
-      "amount": 36.0
+      "amount": 72.0
     },
     {
       "type": "materia:oricho",
-      "amount": 540.0
+      "amount": 72.0
     }
   ],
   "mode": "ADDITIVE",

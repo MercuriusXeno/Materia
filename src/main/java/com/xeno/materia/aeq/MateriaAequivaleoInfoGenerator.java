@@ -19,23 +19,26 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
     // these are junky expressions for changing the values of lots of things at once by using common values.
     // but there is some variation where it feels warranted. Mostly these are just placeholder values as I've no clue what to anticipate balance-wise? So I'm just wingin' it.
 
-    // this is an int in case I need to rapidly scale things, trust me, it might seem dumb but bear with me.
-    private static final int halfUsual = 60;
+    // this is ints for scaling things by "feel" is basically all this is
+    private static final int doubled = 2;
+    private static final int tripled = 3;
+    private static final int quadrupled = 4;
+    private static final int eighth = 15;
+    private static final int quarter = eighth * doubled;
+    private static final int third = 40;
+    private static final int half = quarter * doubled;
 
     // It may bore you to know most things are just worth X. So many things are just X, it's not very thoughtful at first blush. This is just a way to get something in place.
-    private static final int usual = halfUsual * 2;
+    private static final int usual = half * doubled;
 
     // this is the perfunctory doubling required by blocks of things that have slabs, as seen in terrainGeo
-    private static final int slabMult = 2;
+    private static final int slabMult = doubled;
     // it's really common for there to just be recipes where 4x something = something else, so quad mults common.
-    private static final int quadMult = 4;
 
     // the justification for buckets being 3 hydro. it coulda been a lot of numbers, but 3 seems reasonable and sane.
     // the caveat of this section is that lava, through its millibucket concept, controls the price of fire
     // which then extends to the various fire elemental items that are used in smelting, directly. Each one's
     // pyro score is based on how many items it smelts. Lava (1000 = 100 items) so Coal (80 = 8), Blaze (120 = 12)
-    private static final int cauldronDoses = 3;
-    private static final int bucketIngots = 3;
     private static final int pyroFuelValue = 10;
     private static final int lavaSmelts = 100;
     private static final int coalSmelts = 8;
@@ -46,27 +49,29 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
 
     // the reason this is doubled is to make slabs be the baseline "4" and because 8 winds up being a bottom line for glass, weirdly. 9 is a bottom line for ingots.
     private static final int terrainGeo = usual;
+    private static final int glass = 8;
 
     // these are just to make math with sticks, logs and planks basic.
     // the reason sticks have to be 12 is a little convoluted. If it's 3, something winds up with .75 on it, which doubling wouldn't help
     // so quadrupling is the next step.
     private static final int bambooXylo = 24;
-    private static final int stickBamboo = 2;
+    private static final int stickBamboo = doubled;
     private static final int stickXylo = bambooXylo * stickBamboo;
-    private static final int plankSticks = 2;
+    private static final int plankSticks = doubled;
     private static final int plankXylo = stickXylo * plankSticks;
-    private static final int logPlanks = 4;
+    private static final int logPlanks = quadrupled;
     private static final int logXylo = plankXylo * logPlanks;
 
-    private static final int nuggetValue = halfUsual;
+    private static final int copperNuggetValue = 8;
+    private static final int ironNuggetValue = copperNuggetValue * tripled;
+    private static final int goldNuggetValue = ironNuggetValue * tripled;
     private static final int nineCraftingSlots = 9; // "metal" is broadly 9 because ingots decomposing to nuggets is more divisible at 9
-    private static final int ingotValue = nuggetValue * nineCraftingSlots;
+    private static final int ingotValue = copperNuggetValue * nineCraftingSlots;
     private static final int vanillaStackLimit = 64; // this my way of saying throw a 64 in there because a number needs to be big for some reason. Usually multiplying it by something else.
-    private static final int diamondflation = vanillaStackLimit * terrainGeo; // somewhat arbitrary inflation here, both of these are test values. I use this on netherite too.
+    private static final int diamondGemma = usual * nineCraftingSlots; // somewhat arbitrary inflation here, both of these are test values. I use this on netherite too.
 
-    private static final int woolValue = 36;
     private static final int spawnEggProto = 1000;
-    private static final int thirdOfUsual = 40;
+    private static final int woolValue = 36;
 
     public MateriaAequivaleoInfoGenerator(final DataGenerator dataGenerator)
     {
@@ -92,7 +97,7 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         saveMycoStuff(myco(usual));
         saveMycoLogs(myco(logXylo), xylo(logXylo)); // myco logs are sweet, they have both. This fixes an issue where myco logs compete.
         // quasi-food
-        saveData(Items.MILK_BUCKET, krea(halfUsual), hydro(halfUsual));
+        saveData(Items.MILK_BUCKET, krea(half), hydro(half));
 
         // ores, metal ingots
         saveMetalsAndOres();
@@ -121,57 +126,70 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         saveMobHeads();
 
         saveArcheologyStuff();
+
+        saveHorseArmor();
+    }
+
+    private void saveHorseArmor()
+    {
+        saveData(Items.IRON_HORSE_ARMOR, oricho(ingotValue * tripled * tripled));
+        saveData(Items.GOLDEN_HORSE_ARMOR, oricho(ingotValue * tripled * tripled * tripled));
+        saveData(Items.DIAMOND_HORSE_ARMOR, gemma(ingotValue * tripled * tripled * tripled));
     }
 
     private void saveMobHeads()
     {
-        saveData(Items.CREEPER_HEAD, krea(usual), dyna(usual), phasmo(halfUsual));
-        saveData(Items.DRAGON_HEAD, krea(usual), aero(usual), phasmo(halfUsual));
-        saveData(Items.PIGLIN_HEAD, krea(usual), pyro(usual), phasmo(halfUsual));
+        saveData(Items.CREEPER_HEAD, krea(usual), dyna(usual), phasmo(half));
+        saveData(Items.DRAGON_HEAD, krea(usual), aero(usual), phasmo(half));
+        saveData(Items.PIGLIN_HEAD, krea(usual), pyro(usual), phasmo(half));
         saveData(Items.PLAYER_HEAD, krea(usual));
         saveData(Items.ZOMBIE_HEAD, krea(usual), phasmo(usual));
         saveData(Items.SKELETON_SKULL, krea(usual), phasmo(usual));
-        saveData(Items.WITHER_SKELETON_SKULL, krea(usual), phasmo(usual * quadMult), pyro(usual));
+        saveData(Items.WITHER_SKELETON_SKULL, krea(usual), phasmo(usual * quadrupled), pyro(usual));
     }
 
     private void saveContainersOfStuff()
     {
-        saveData(Items.WATER_BUCKET, hydro(millibucketCount), oricho(ingotValue * bucketIngots));
-        saveData(Items.LAVA_BUCKET, pyro(millibucketCount), oricho(ingotValue * bucketIngots));
-        saveData(Items.AXOLOTL_BUCKET, krea(millibucketCount), oricho(ingotValue * bucketIngots));
-        saveData(Items.COD_BUCKET, krea(millibucketCount), oricho(ingotValue * bucketIngots));
-        saveData(Items.POWDER_SNOW_BUCKET, cryo(millibucketCount), oricho(ingotValue * bucketIngots));
-        saveData(Items.POTION, gemma(thirdOfUsual), oricho(ingotValue * bucketIngots), absorbOnly(halfUsual));
+        saveData(Items.WATER_BUCKET, hydro(millibucketCount), oricho(ingotValue * tripled));
+        saveData(Items.LAVA_BUCKET, pyro(millibucketCount), oricho(ingotValue * tripled));
+        saveData(Items.AXOLOTL_BUCKET, krea(usual * quadrupled), dyna(usual), hydro(usual * quadrupled), oricho(ingotValue * tripled), denied(usual));
+        saveData(Items.COD_BUCKET, krea(usual * quadrupled), dyna(usual), hydro(usual * quadrupled), oricho(ingotValue * tripled), denied(usual));
+        saveData(Items.SALMON_BUCKET, krea(usual * quadrupled), dyna(usual), hydro(usual * quadrupled), oricho(ingotValue * tripled), denied(usual));
+        saveData(Items.PUFFERFISH_BUCKET, krea(usual * quadrupled), dyna(usual), hydro(usual * quadrupled), oricho(ingotValue * tripled), denied(usual));
+        saveData(Items.TADPOLE_BUCKET, krea(usual * quadrupled), dyna(usual), hydro(usual * quadrupled), oricho(ingotValue * tripled), denied(usual));
+        saveData(Items.TROPICAL_FISH_BUCKET, krea(usual * quadrupled), dyna(usual), hydro(usual * quadrupled), oricho(ingotValue * tripled), denied(usual));
+        saveData(Items.POWDER_SNOW_BUCKET, cryo(millibucketCount), oricho(ingotValue * tripled));
     }
 
     private void saveGemstones()
     {
-        saveData(Items.DIAMOND, gemma(vanillaStackLimit), proto(usual));
-        saveData(Items.EMERALD, gemma(vanillaStackLimit * usual));
+        saveData(Items.DIAMOND, gemma(diamondGemma), proto(usual * quadrupled));
+        saveData(Items.EMERALD, gemma(usual * nineCraftingSlots));
         saveData(Items.LAPIS_LAZULI, phasmo(usual), gemma(usual));
         saveData(Items.QUARTZ, gemma(terrainGeo));
 
-        saveData(Items.AMETHYST_BLOCK, gemma(terrainGeo * quadMult)); // I just think amethyst should be a good find
-        saveData(Items.AMETHYST_SHARD, gemma(halfUsual));
+        saveData(Items.AMETHYST_BLOCK, gemma(terrainGeo * quadrupled)); // I just think amethyst should be a good find
+        saveData(Items.AMETHYST_SHARD, gemma(half));
 
-        saveData(Items.CALCITE, gemma(halfUsual));
+        saveData(Items.CALCITE, gemma(half));
     }
 
     private void saveMetalsAndOres()
     {
         // ore blocks
-        saveData(Items.COAL, pyro(usual));
-        saveData(Items.RAW_GOLD, oricho(ingotValue * 6));
-        saveData(Items.RAW_IRON, oricho(ingotValue * 2));
-        saveData(Items.RAW_COPPER, oricho(ingotValue), electro(nineCraftingSlots * quadMult));
+        saveData(Items.COAL, pyro(coalValue));
+        saveData(Items.RAW_GOLD, oricho(goldNuggetValue * nineCraftingSlots));
+        saveData(Items.RAW_IRON, oricho(ironNuggetValue * nineCraftingSlots));
+        saveData(Items.CHAIN, oricho(ironNuggetValue * nineCraftingSlots + ironNuggetValue * doubled));
+        saveData(Items.RAW_COPPER, oricho(ingotValue), electro(ingotValue));
 
         // three copper variants beyond "block", should create the transmutation pathways for all the cut variants, slabs, etc.
-        saveData(Items.EXPOSED_COPPER, oricho(ingotValue * nineCraftingSlots), electro(nineCraftingSlots * nineCraftingSlots * quadMult));
-        saveData(Items.WEATHERED_COPPER, oricho(ingotValue * nineCraftingSlots), electro(nineCraftingSlots * nineCraftingSlots * quadMult));
-        saveData(Items.OXIDIZED_COPPER, oricho(ingotValue * nineCraftingSlots), electro(nineCraftingSlots * nineCraftingSlots * quadMult));
+        saveData(Items.EXPOSED_COPPER, oricho(ingotValue * nineCraftingSlots), electro(ingotValue * nineCraftingSlots));
+        saveData(Items.WEATHERED_COPPER, oricho(ingotValue * nineCraftingSlots), electro(ingotValue * nineCraftingSlots));
+        saveData(Items.OXIDIZED_COPPER, oricho(ingotValue * nineCraftingSlots), electro(ingotValue * nineCraftingSlots));
 
         saveData(Items.REDSTONE, electro(usual));
-        saveData(Items.NETHERITE_SCRAP, oricho(diamondflation), proto(usual * 2));
+        saveData(Items.NETHERITE_SCRAP, oricho(ingotValue * vanillaStackLimit), proto(usual * nineCraftingSlots)); // like x7~ gold (64x vs 9x)
     }
 
     private void saveKreaWool(CompoundInstance krea)
@@ -204,16 +222,16 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         // sadly there's no super type but at least every single one is named "pottery_sherd", so we use that.
         var key = ForgeRegistries.ITEMS.getKey(item);
         if (key != null && key.getPath().contains("pottery_sherd")) {
-            saveData(item, proto(halfUsual), absorbOnly(halfUsual));
+            saveData(item, proto(half), denied(half));
         }
     }
 
     private void saveAbjectDenials()
     {
         // controversial
-        saveData(Items.NETHER_STAR, photo(vanillaStackLimit), phasmo(vanillaStackLimit), proto(usual), absorbOnly(halfUsual));
+        saveData(Items.NETHER_STAR, photo(vanillaStackLimit), phasmo(vanillaStackLimit), proto(usual), denied(half));
         // silly water. water is infinite, this is a joke.
-        saveData(Items.HEART_OF_THE_SEA, hydro(vanillaStackLimit), proto(usual), absorbOnly(halfUsual));
+        saveData(Items.HEART_OF_THE_SEA, hydro(vanillaStackLimit), proto(usual), denied(half));
     }
 
     private void saveSpawnEggs()
@@ -226,7 +244,7 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
     {
         if (item instanceof SpawnEggItem)
         {
-            saveData(item, proto(spawnEggProto), absorbOnly(halfUsual));
+            saveData(item, proto(spawnEggProto), denied(half));
         }
     }
 
@@ -240,51 +258,53 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
 
     private void saveMiscTerrestrialStuff()
     {
-        saveData(Items.SAND, gemma(terrainGeo));
-        saveData(Items.GLASS, gemma(terrainGeo));
-        saveData(Items.GLASS_BOTTLE, gemma(terrainGeo));
-        saveData(Items.CHARCOAL, pyro(usual));
-        saveData(Items.BRICK, geo(terrainGeo), pyro(halfUsual));
-        saveData(Items.POISONOUS_POTATO, chloro(usual), myco(usual), absorbOnly(halfUsual));
-        saveData(Items.CLAY_BALL, geo(usual), hydro(halfUsual));
+        saveData(Items.SAND, gemma(glass));
+        saveData(Items.GLASS, gemma(glass));
+        saveData(Items.GLASS_BOTTLE, gemma(glass));
+        saveData(Items.CHARCOAL, pyro(coalValue));
+        saveData(Items.BRICK, geo(terrainGeo), denied(usual));
+        saveData(Items.POISONOUS_POTATO, chloro(usual), myco(usual), denied(half));
+        saveData(Items.CLAY_BALL, geo(usual), hydro(half));
         saveData(Items.FEATHER, krea(usual));
         saveData(Items.BROWN_MUSHROOM_BLOCK, myco(usual));
         saveData(Items.RED_MUSHROOM_BLOCK, myco(usual));
-        saveData(Items.COBWEB, krea(halfUsual));
+        saveData(Items.COBWEB, krea(half));
         saveData(Items.PUMPKIN, chloro(usual * 5));
         saveData(Items.PUMPKIN_SEEDS, chloro(usual));
         saveData(Items.SMALL_DRIPLEAF, chloro(usual), dyna(usual));
         saveData(Items.BIG_DRIPLEAF, chloro(usual), dyna(usual));
         saveData(Items.CARVED_PUMPKIN, chloro(usual));
         saveData(Items.BELL, oricho(vanillaStackLimit));
-        saveData(Items.GUNPOWDER, pyro(usual), dyna(usual));
+        saveData(Items.GUNPOWDER, pyro(third), dyna(usual));
         saveData(Items.HONEYCOMB, krea(usual), dyna(usual));
         saveData(Items.BEE_NEST, krea(usual * nineCraftingSlots), dyna(usual * nineCraftingSlots));
-        saveData(Items.HONEY_BLOCK, krea(usual * quadMult), dyna(halfUsual));
+        saveData(Items.HONEY_BLOCK, krea(usual * quadrupled), dyna(half));
         saveData(Items.ICE, cryo(usual));
         saveData(Items.MAGMA_BLOCK, pyro(usual), geo(terrainGeo));
         saveData(Items.OBSIDIAN, geo(terrainGeo), gemma(terrainGeo));
         saveData(Items.PHANTOM_MEMBRANE, aero(vanillaStackLimit), phasmo(vanillaStackLimit));
         saveData(Items.RABBIT_FOOT, krea(usual));
-        saveData(Items.ROTTEN_FLESH, proto(halfUsual), krea(usual));
+        saveData(Items.ROTTEN_FLESH, proto(half), krea(usual));
         saveData(Items.SLIME_BALL, dyna(usual));
-        saveData(Items.SNOWBALL, cryo(halfUsual));
-        saveData(Items.SPIDER_EYE, krea(usual), dyna(halfUsual));
-        saveData(Items.SCULK_VEIN, phasmo(halfUsual), myco(halfUsual));
+        saveData(Items.SNOWBALL, cryo(half));
+        saveData(Items.SPIDER_EYE, krea(usual), dyna(half));
+        saveData(Items.SCULK_VEIN, phasmo(half), myco(half));
         saveData(Items.SCULK, phasmo(usual), myco(usual));
-        saveData(Items.SCULK_CATALYST, phasmo(usual), myco(usual), proto(usual * quadMult));
-        saveData(Items.SCULK_SHRIEKER, phasmo(usual), myco(usual), dyna(usual * quadMult));
-        saveData(Items.SCULK_SENSOR, phasmo(usual), myco(usual), electro(usual * quadMult));
+        saveData(Items.SCULK_CATALYST, phasmo(usual), myco(usual), proto(usual * quadrupled));
+        saveData(Items.SCULK_SHRIEKER, phasmo(usual), myco(usual), dyna(usual * quadrupled));
+        saveData(Items.SCULK_SENSOR, phasmo(usual), myco(usual), electro(usual * quadrupled));
         saveData(Items.GLOW_BERRIES, photo(usual), chloro(usual));
-        saveData(Items.GLOW_LICHEN, photo(halfUsual), chloro(halfUsual));
+        saveData(Items.GLOW_LICHEN, photo(half), chloro(half));
         saveData(Items.GOAT_HORN, krea(usual));
-        saveData(Items.HANGING_ROOTS, xylo(halfUsual));
-        saveData(Items.MANGROVE_ROOTS, xylo(halfUsual));
-        saveData(Items.MOSS_BLOCK, xylo(halfUsual));
-        saveData(Items.OCHRE_FROGLIGHT, dyna(usual), photo(usual * quadMult));
-        saveData(Items.PEARLESCENT_FROGLIGHT, dyna(usual), photo(usual * quadMult));
-        saveData(Items.VERDANT_FROGLIGHT, dyna(usual), photo(usual * quadMult));
-        saveData(Items.POINTED_DRIPSTONE, geo(usual), proto(quadMult));
+        saveData(Items.HANGING_ROOTS, xylo(half));
+        saveData(Items.MANGROVE_ROOTS, xylo(half));
+        saveData(Items.MOSS_BLOCK, xylo(half));
+        saveData(Items.OCHRE_FROGLIGHT, dyna(usual), photo(usual * quadrupled));
+        saveData(Items.PEARLESCENT_FROGLIGHT, dyna(usual), photo(usual * quadrupled));
+        saveData(Items.VERDANT_FROGLIGHT, dyna(usual), photo(usual * quadrupled));
+        saveData(Items.POINTED_DRIPSTONE, geo(usual), proto(quadrupled));
+        saveData(Items.SNIFFER_EGG, proto(usual), dyna(usual), krea(usual * quadrupled));
+        saveData(Items.TURTLE_EGG, proto(usual), dyna(usual), krea(usual * quadrupled));
 
     }
 
@@ -292,27 +312,31 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
     {
         saveData(Items.CHORUS_FLOWER, chloro(usual), aero(usual));
         saveData(Items.CHORUS_FRUIT, chloro(usual), aero(usual));
-        saveData(Items.POPPED_CHORUS_FRUIT, chloro(usual), aero(usual), pyro(halfUsual));
-        saveData(Items.END_STONE, geo(terrainGeo), aero(halfUsual * slabMult));
+        saveData(Items.POPPED_CHORUS_FRUIT, chloro(usual), aero(usual), pyro(half));
+        saveData(Items.END_STONE, geo(terrainGeo), aero(half * slabMult));
         saveData(Items.ENDER_PEARL, aero(usual));
         saveData(Items.SHULKER_SHELL, aero(vanillaStackLimit), phasmo(usual));
+        saveData(Items.DRAGON_BREATH, proto(eighth), dyna(usual), aero(usual), gemma(terrainGeo));
+        saveData(Items.DRAGON_EGG, proto(usual * quadrupled), aero(usual * quadrupled));
+        saveData(Items.ECHO_SHARD, aero(usual), phasmo(usual));
+        saveData(Items.ELYTRA, aero(usual * nineCraftingSlots), phasmo(usual), proto(usual), denied(usual));
     }
 
     private void saveNetherStuff()
     {
-        saveData(Items.NETHER_WART, myco(usual), phasmo(halfUsual));
-        saveData(Items.WARPED_WART_BLOCK, myco(usual), aero(halfUsual));
-        saveData(Items.NETHERRACK, geo(terrainGeo), pyro(halfUsual));
-        saveData(Items.CRIMSON_NYLIUM, myco(usual), phasmo(halfUsual));
-        saveData(Items.WARPED_NYLIUM, myco(usual), aero(halfUsual));
+        saveData(Items.NETHER_WART, myco(usual), phasmo(half));
+        saveData(Items.WARPED_WART_BLOCK, myco(usual), aero(half));
+        saveData(Items.NETHERRACK, geo(terrainGeo), pyro(half));
+        saveData(Items.CRIMSON_NYLIUM, myco(usual), phasmo(half));
+        saveData(Items.WARPED_NYLIUM, myco(usual), aero(half));
         saveData(Items.CRYING_OBSIDIAN, geo(terrainGeo), gemma(terrainGeo), phasmo(terrainGeo));
         saveData(Items.GHAST_TEAR, phasmo(vanillaStackLimit), gemma(vanillaStackLimit));
-        saveData(Items.GLOWSTONE_DUST, photo(halfUsual));
+        saveData(Items.GLOWSTONE_DUST, photo(half));
         saveData(Items.SHROOMLIGHT, photo(vanillaStackLimit), myco(logXylo));
         saveData(Items.SOUL_SAND, gemma(terrainGeo), phasmo(usual));
         saveData(Items.SOUL_SOIL, geo(terrainGeo), phasmo(usual));
         saveData(Items.BASALT, geo(terrainGeo));
-        saveData(Items.BLAZE_ROD, pyro(halfUsual * 12));
+        saveData(Items.BLAZE_ROD, pyro(blazeRodValue));
     }
 
     private void saveRocksAndDirt()
@@ -325,7 +349,7 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         saveData(Items.FLINT, geo(terrainGeo));
         saveData(Items.GRAVEL, geo(terrainGeo));
         saveData(Items.RED_SAND, geo(terrainGeo));
-        saveData(Items.ROOTED_DIRT, geo(terrainGeo), xylo(halfUsual));
+        saveData(Items.ROOTED_DIRT, geo(terrainGeo), xylo(half));
 
         saveData(Items.MOSSY_COBBLESTONE, geo(terrainGeo), chloro(usual));
         saveData(Items.PODZOL, geo(terrainGeo), myco(usual));
@@ -336,20 +360,20 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
     private void saveAquaticStuffAndFish()
     {
         // coral, there's a lot of it
-        saveCoral(chloro(halfUsual), hydro(halfUsual));
-        saveCoralBlocks(chloro(halfUsual * 4), hydro(halfUsual * 4));
+        saveCoral(chloro(half), hydro(half));
+        saveCoralBlocks(chloro(half * 4), hydro(half * 4));
 
         // other aquatic stuff
-        saveData(Items.PRISMARINE_CRYSTALS, hydro(halfUsual), gemma(3), photo(6));
-        saveData(Items.PRISMARINE_SHARD, hydro(halfUsual), gemma(2), photo(4));
-        saveData(Items.SCUTE, krea(usual), hydro(halfUsual), proto(halfUsual));
+        saveData(Items.PRISMARINE_CRYSTALS, hydro(half), gemma(quarter), photo(quarter));
+        saveData(Items.PRISMARINE_SHARD, hydro(half), gemma(quarter), photo(quarter));
+        saveData(Items.SCUTE, krea(usual), hydro(half), proto(half));
         saveData(Items.SEA_PICKLE, hydro(usual), chloro(usual), photo(usual));
         saveData(Items.SEAGRASS, chloro(usual), hydro(usual));
         saveData(Items.TURTLE_EGG, krea(usual), hydro(usual));
         saveData(Items.INK_SAC, krea(usual), hydro(usual));
         saveData(Items.GLOW_INK_SAC, krea(usual), photo(usual), hydro(usual));
         saveData(Items.WET_SPONGE, hydro(usual), aero(usual), krea(usual));
-        saveData(Items.NAUTILUS_SHELL, hydro(usual), proto(3), krea(usual));
+        saveData(Items.NAUTILUS_SHELL, hydro(usual), proto(usual), krea(usual));
         saveMostFish(krea(usual), hydro(usual));
     }
 
@@ -395,8 +419,6 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         saveData(Items.WHEAT, chloro);
         saveData(Items.WHEAT_SEEDS, chloro);
         saveData(Items.POTATO, chloro);
-        saveData(Items.PITCHER_POD, chloro);
-        saveData(Items.PITCHER_PLANT, chloro);
 
     }
 
@@ -463,6 +485,7 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         saveData(Items.COCOA_BEANS, chloro);
         saveData(Items.CORNFLOWER, chloro);
         saveData(Items.DANDELION, chloro);
+        saveData(Items.FLOWERING_AZALEA, chloro);
         saveData(Items.LILY_OF_THE_VALLEY, chloro);
         saveData(Items.ORANGE_TULIP, chloro);
         saveData(Items.OXEYE_DAISY, chloro);
@@ -470,6 +493,7 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         saveData(Items.PINK_PETALS, chloro);
         saveData(Items.POPPY, chloro);
         saveData(Items.RED_TULIP, chloro);
+        saveData(Items.TORCHFLOWER, chloro);
         saveData(Items.WHITE_TULIP, chloro);
         saveData(Items.BLACK_DYE, chloro);
         saveData(Items.BLUE_DYE, chloro);
@@ -503,7 +527,12 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         saveDoubleFlowers(chloro(usual * 2));
         saveData(Items.BAMBOO, xylo(bambooXylo));
         saveData(Items.STRIPPED_BAMBOO_BLOCK, xylo(bambooXylo * nineCraftingSlots));
-        saveData(Items.STRING, krea(halfUsual));
+        saveData(Items.STRING, krea(half));
+        saveData(Items.PITCHER_POD, chloro(usual), dyna(half));
+        saveData(Items.PITCHER_PLANT, chloro(usual), dyna(half));
+        saveData(Items.TORCHFLOWER_SEEDS, chloro(usual), pyro(half));
+        saveData(Items.SPORE_BLOSSOM, chloro(usual), myco(usual));
+        saveData(Items.WITHER_ROSE, chloro(usual), phasmo(usual), proto(quarter));
     }
 
     private void saveSaplings(CompoundInstance chloro)
@@ -661,8 +690,8 @@ public class MateriaAequivaleoInfoGenerator extends ForcedInformationProvider
         return new CompoundInstance(MateriaRegistry.PHASMO.get(), d);
     }
 
-    private static CompoundInstance absorbOnly(double d)
+    private static CompoundInstance denied(double d)
     {
-        return new CompoundInstance(MateriaRegistry.ABSORB_ONLY.get(), d);
+        return new CompoundInstance(MateriaRegistry.DENIED.get(), d);
     }
 }

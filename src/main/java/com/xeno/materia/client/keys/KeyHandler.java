@@ -2,7 +2,9 @@ package com.xeno.materia.client.keys;
 
 import com.xeno.materia.MateriaMod;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -18,6 +20,20 @@ public class KeyHandler {
 		}
 		RadialMenuKeyHandler.handleRadialKeyEvent(eventKey);
 		AbilityKeyHandler.handleAbilityKeyEvent(eventKey);
-		GeophageKeyHandler.handleGeophageKeyEvent(eventKey);
+	}
+
+	@SubscribeEvent
+	public static void mouseEvent(final InputEvent.MouseButton eventButton) {
+		MateriaControlKeyHandler.handleMouseEventGenerally(eventButton);
+	}
+
+	@SubscribeEvent
+	public static void screenMouseButtonPressed(final ScreenEvent.MouseButtonPressed pressedMouseEvent) {
+		MateriaControlKeyHandler.handleMouseEventOnScreens(pressedMouseEvent);
+	}
+
+	@SubscribeEvent
+	public static void screenMouseButtonPressed(final ScreenEvent.KeyPressed pressedKeyEvent) {
+		MateriaControlKeyHandler.handleKeyEventOnScreens(pressedKeyEvent);
 	}
 }

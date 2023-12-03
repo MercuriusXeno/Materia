@@ -17,7 +17,7 @@ public class AbilityKeyHandler {
 	}
 	private static boolean isAbilityKey(int key)
 	{
-		return key == ModKeyBindings.ABILITY.getKey().getValue();
+		return key == ModKeyBindings.ABILITY_KEY.getKey().getValue();
 	}
 	public static void doSlotAssignment(int i) {
 		// noop, do something here where we remember that the player wanted to do X

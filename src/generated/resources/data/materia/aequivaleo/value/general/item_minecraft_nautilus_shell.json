@@ -10,7 +10,7 @@
     },
     {
       "type": "materia:proto",
-      "amount": 3.0
+      "amount": 120.0
     }
   ],
   "mode": "ADDITIVE",

@@ -1,7 +1,7 @@
 {
   "compounds": {
     "type": "materia:gemma",
-    "amount": 120.0
+    "amount": 8.0
   },
   "mode": "ADDITIVE",
   "targets": [

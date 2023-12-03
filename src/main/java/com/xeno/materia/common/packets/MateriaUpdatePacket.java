@@ -48,8 +48,8 @@ public class MateriaUpdatePacket
         {
             Optional.ofNullable(Minecraft.getInstance().player).ifPresent(player ->
                 player.getCapability(MateriaCapabilityImpl.MATERIA)
-                    .ifPresent(c -> c.setMateria(MateriaRegistry.MATERIA_VALUES.get(message.materiaEnumValue), message.amount)));
-            MateriaMod.debug("updated " + MateriaRegistry.MATERIA_VALUES.get(message.materiaEnumValue).name() + " " + message.amount);
+                    .ifPresent(c -> c.setMateria(MateriaEnum.valueMap().get(message.materiaEnumValue), message.amount)));
+            MateriaMod.debug("updated " + MateriaEnum.valueMap().get(message.materiaEnumValue).name() + " " + message.amount);
         }
     }
 }

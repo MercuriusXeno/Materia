@@ -3,6 +3,8 @@ package com.xeno.materia.client.radial;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
+import com.xeno.materia.common.packets.MateriaNetworking;
+import com.xeno.materia.common.packets.SpendMateriaOnLimitPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,6 +24,9 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.List;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
+/**
+ * Unabashedly stolen from Gigaherz and BaileyH (they are my fronds)
+ */
 public class GuiRadialMenu<T> extends Screen {
 	private static final float PRECISION = 5.0f;
 	private static final int MAX_SLOTS = 20;
@@ -177,7 +182,6 @@ public class GuiRadialMenu<T> extends Screen {
 					(int)percentPosX + (font.width(radialMenuSlots.get(i).percent()) / 2),
 					(int)percentPosY + (font.lineHeight / 2), 16777215);
 
-			//            graphics.renderItem(new ItemStack(Items.DIAMOND_PICKAXE), (int) posX, (int) posY);
 			T primarySlotIcon = radialMenuSlots.get(i).primarySlotIcon();
 			List<T> secondarySlotIcons = radialMenuSlots.get(i).secondarySlotIcons();
 			if (primarySlotIcon != null) {
@@ -250,6 +254,8 @@ public class GuiRadialMenu<T> extends Screen {
 		if (this.selectedItem != -1) {
 			radialMenu.setCurrentSlot(selectedItem);
 			minecraft.player.closeContainer();
+
+			MateriaNetworking.sendToServer(new SpendMateriaOnLimitPacket(selectedItem));
 		}
 		return true;
 	}

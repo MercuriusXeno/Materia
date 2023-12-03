@@ -2,11 +2,11 @@
   "compounds": [
     {
       "type": "materia:gemma",
-      "amount": 64.0
+      "amount": 1080.0
     },
     {
       "type": "materia:proto",
-      "amount": 120.0
+      "amount": 480.0
     }
   ],
   "mode": "ADDITIVE",

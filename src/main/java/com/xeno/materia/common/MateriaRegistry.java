@@ -1,5 +1,6 @@
 package com.xeno.materia.common;
 
+import com.ldtteam.aequivaleo.api.compound.CompoundInstance;
 import com.ldtteam.aequivaleo.api.compound.type.ICompoundType;
 import com.ldtteam.aequivaleo.api.compound.type.group.ICompoundTypeGroup;
 import com.xeno.materia.MateriaMod;
@@ -37,13 +38,11 @@ public class MateriaRegistry {
 				.register(name, () -> new MateriaCompoundType(materiaEnum, MATERIA_TYPES, representativeItem));
 		MATERIA.put(materiaEnum, result);
 		MATERIA_NAMES.put(result.getId(), materiaEnum);
-		MATERIA_VALUES.put(materiaEnum.getValue(), materiaEnum);
 		return result;
 	}
 
 	public static final HashMap<MateriaEnum, RegistryObject<ICompoundType>> MATERIA = new HashMap<>();
 	public static final HashMap<ResourceLocation, MateriaEnum> MATERIA_NAMES = new HashMap<>();
-	public static final HashMap<Integer, MateriaEnum> MATERIA_VALUES = new HashMap<>();
 	public static final RegistryObject<ICompoundType> CRYO = registerMateria("cryo", MateriaEnum.CRYO, Items.SNOWBALL);
 	public static final RegistryObject<ICompoundType> PYRO = registerMateria("pyro", MateriaEnum.PYRO, Items.BLAZE_POWDER);
 	public static final RegistryObject<ICompoundType> MYCO = registerMateria("myco", MateriaEnum.MYCO, Items.BROWN_MUSHROOM);
@@ -60,7 +59,7 @@ public class MateriaRegistry {
 	public static final RegistryObject<ICompoundType> CHLORO = registerMateria("chloro", MateriaEnum.CHLORO, Items.FERN);
 	public static final RegistryObject<ICompoundType> ELECTRO = registerMateria("electro", MateriaEnum.ELECTRO, Items.REDSTONE);
 	public static final RegistryObject<ICompoundType> PHASMO = registerMateria("phasmo", MateriaEnum.PHASMO, Items.GHAST_TEAR);
-	public static final RegistryObject<ICompoundType> ABSORB_ONLY = registerMateria("denied", MateriaEnum.ABSORB_ONLY, Items.AIR);
+	public static final RegistryObject<ICompoundType> DENIED = registerMateria("denied", MateriaEnum.DENIED, Items.AIR);
 
 	public static void init() {
 		IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -71,6 +70,11 @@ public class MateriaRegistry {
 		ENTITIES.register(bus);
 		EFFECTS.register(bus);
 	}
+
+    public static MateriaEnum getMateriaByCompoundType(CompoundInstance m)
+    {
+		return MATERIA_NAMES.get(m.getType().getRegistryName());
+    }
 
 //	// TEST ITEMS FOR CASTING A PROJECTILE FROM THE MATERIA
 //	public static final RegistryObject<Item> GEO_ITEM = ITEMS.register("geo_item", () -> new DebugProjectile(MateriaEnum.GEO));

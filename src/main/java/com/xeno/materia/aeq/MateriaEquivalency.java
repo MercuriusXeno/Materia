@@ -21,7 +21,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.*;
 
 @AequivaleoPlugin
-public class MateriaAequivaleoPlugin implements IAequivaleoPlugin
+public class MateriaEquivalency implements IAequivaleoPlugin
 {
     public static final String ID = MateriaMod.location("materia_types").toString();
     private static final Set<CompoundInstance> EMPTY = new HashSet<>();
@@ -67,7 +67,7 @@ public class MateriaAequivaleoPlugin implements IAequivaleoPlugin
 
     private static void logEquivalencyIssues()
     {
-        ForgeRegistries.ITEMS.getEntries().forEach(MateriaAequivaleoPlugin::checkEquivalencyValidity);
+        ForgeRegistries.ITEMS.getEntries().forEach(MateriaEquivalency::checkEquivalencyValidity);
     }
 
     private static void checkEquivalencyValidity(Map.Entry<ResourceKey<Item>, Item> k)
@@ -92,17 +92,17 @@ public class MateriaAequivaleoPlugin implements IAequivaleoPlugin
     }
 
     static TreeMap<Item, Set<CompoundInstance>> validEntryCache =
-            new TreeMap<>(MateriaAequivaleoPlugin::entryCacheComparator);
+            new TreeMap<>(MateriaEquivalency::entryCacheComparator);
 
     static TreeMap<Item, Set<CompoundInstance>> invalidEntryCache =
-            new TreeMap<>(MateriaAequivaleoPlugin::entryCacheComparator);
+            new TreeMap<>(MateriaEquivalency::entryCacheComparator);
 
 
     private static void designateAllEquivalencyEntries()
     {
         // the reason I've hard coded this to the overworld resource key is that Materia doesn't have different values.
         // what I'm doing here is caching the all-entries the first time we hit this.
-        getEquivalencyResultsFromApiInstance().forEach(MateriaAequivaleoPlugin::placeEquivalency);
+        getEquivalencyResultsFromApiInstance().forEach(MateriaEquivalency::placeEquivalency);
 
     }
 
@@ -131,7 +131,7 @@ public class MateriaAequivaleoPlugin implements IAequivaleoPlugin
     {
         // find "partial" values and deny them. This is an indication of things having too small values to justify
         // transmutation
-        var isAnyValueMalformed = v.stream().anyMatch(c -> MateriaAequivaleoPlugin.isMalformedEntry(k, c));
+        var isAnyValueMalformed = v.stream().anyMatch(c -> MateriaEquivalency.isMalformedEntry(k, c));
         return !isAnyValueMalformed;
     }
 
@@ -139,7 +139,7 @@ public class MateriaAequivaleoPlugin implements IAequivaleoPlugin
     {
         // it's not uncommon for denied values to be malformed, we don't have to worry about those.
         // denied is more like an inheritable condition than an evaluation. Any amount of denied is enough to block.
-        return compoundInstance.getType() != MateriaRegistry.ABSORB_ONLY.get() && Math.abs(compoundInstance.getAmount() % 1d) > precisionCutoff;
+        return compoundInstance.getType() != MateriaRegistry.DENIED.get() && Math.abs(compoundInstance.getAmount() % 1d) > precisionCutoff;
     }
 
     @Override
