@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:chloro",
+      "amount": 60.0
+    },
+    {
+      "type": "materia:hydro",
+      "amount": 60.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:tube_coral"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:tube_coral"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

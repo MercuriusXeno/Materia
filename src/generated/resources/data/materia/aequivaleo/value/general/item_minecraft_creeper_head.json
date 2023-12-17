@@ -1,0 +1,32 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:krea",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:vivo",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:anima",
+      "amount": 60.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:creeper_head"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:creeper_head"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

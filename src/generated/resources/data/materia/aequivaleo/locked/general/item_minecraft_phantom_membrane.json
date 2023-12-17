@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:aero",
+      "amount": 64.0
+    },
+    {
+      "type": "materia:anima",
+      "amount": 64.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:phantom_membrane"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:phantom_membrane"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

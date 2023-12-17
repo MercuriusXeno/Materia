@@ -1,0 +1,36 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:proto",
+      "amount": 15.0
+    },
+    {
+      "type": "materia:vivo",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:aero",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:gemma",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:dragon_breath"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:dragon_breath"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

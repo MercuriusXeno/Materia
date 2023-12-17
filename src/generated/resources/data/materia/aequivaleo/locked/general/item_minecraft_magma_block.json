@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:pyro",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:geo",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:magma_block"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:magma_block"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

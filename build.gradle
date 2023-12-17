@@ -11,6 +11,10 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven { url = 'https://maven.parchmentmc.org' }
+    maven { url = 'https://maven.blamejared.com' }
+    maven { url = 'https://ldtteam.jfrog.io/ldtteam/modding' }
+    maven { url = "https://dvs1.progwml6.com/files/maven/" }
 }
 
 base {
@@ -22,6 +26,13 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 //minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 //minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
+
+// secrets so that I can use my skin in-dev
+def secrets = new Properties()
+try(FileInputStream stream = new FileInputStream("$project.rootDir/" + "secrets.properties")) {
+    secrets.load(stream)
+    secrets.each { secret -> project.ext.set(secret.key, secret.value) }
+}
 
 // Default run configurations.
 // These can be tweaked, removed, or duplicated as needed.
@@ -46,6 +57,8 @@ runs {
     client {
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
         systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--username' + "$project.username"
+        programArgument '--uuid' + "$project.uuid"
     }
 
     server {
@@ -88,6 +101,10 @@ dependencies {
     // compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
     // runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
 
+    runtimeOnly "com.ldtteam:aequivaleo:${aequivaleo_version}:universal"
+    compileOnly "com.ldtteam:aequivaleo:${aequivaleo_version}:api"
+    compileOnly "com.ldtteam:aequivaleo:${aequivaleo_version}:vanillaapi"
+
     // Example mod dependency using a mod jar from ./libs with a flat dir repository
     // This maps to ./libs/coolmod-${mc_version}-${coolmod_version}.jar
     // The group id is ignored when searching -- in this case, it is "blank"
@@ -112,6 +129,7 @@ tasks.withType(ProcessResources).configureEach {
     var replaceProperties = [
             minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
             neo_version         : neo_version, neo_version_range: neo_version_range,
+            aequivaleo_version  : aequivaleo_version,
             loader_version_range: loader_version_range,
             mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
             mod_authors         : mod_authors, mod_description: mod_description, pack_format_number: pack_format_number,

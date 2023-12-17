@@ -1,0 +1,24 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:krea",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:player_head"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:player_head"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

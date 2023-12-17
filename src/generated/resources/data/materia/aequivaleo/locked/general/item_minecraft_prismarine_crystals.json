@@ -1,0 +1,32 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:hydro",
+      "amount": 60.0
+    },
+    {
+      "type": "materia:gemma",
+      "amount": 30.0
+    },
+    {
+      "type": "materia:photo",
+      "amount": 30.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:prismarine_crystals"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:prismarine_crystals"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

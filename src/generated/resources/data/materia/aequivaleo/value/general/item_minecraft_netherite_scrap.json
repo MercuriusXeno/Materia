@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:oricho",
+      "amount": 4608.0
+    },
+    {
+      "type": "materia:proto",
+      "amount": 1080.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:netherite_scrap"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:netherite_scrap"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:vivo",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:photo",
+      "amount": 480.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:verdant_froglight"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:verdant_froglight"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

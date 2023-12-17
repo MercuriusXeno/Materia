@@ -1,0 +1,24 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:krea",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:rabbit"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:rabbit"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

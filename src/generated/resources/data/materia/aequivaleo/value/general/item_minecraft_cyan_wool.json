@@ -1,0 +1,24 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:krea",
+      "amount": 36.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:cyan_wool"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:cyan_wool"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

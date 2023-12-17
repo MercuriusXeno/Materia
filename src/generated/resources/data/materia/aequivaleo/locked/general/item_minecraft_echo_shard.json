@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:aero",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:anima",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:echo_shard"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:echo_shard"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

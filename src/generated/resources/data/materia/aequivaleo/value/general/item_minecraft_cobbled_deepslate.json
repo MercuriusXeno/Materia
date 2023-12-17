@@ -1,0 +1,24 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:geo",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:cobbled_deepslate"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:cobbled_deepslate"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

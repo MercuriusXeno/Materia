@@ -1,0 +1,24 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:chloro",
+      "amount": 600.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:pumpkin"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:pumpkin"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

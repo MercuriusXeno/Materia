@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:oricho",
+      "amount": 72.0
+    },
+    {
+      "type": "materia:electro",
+      "amount": 72.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:raw_copper"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:raw_copper"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

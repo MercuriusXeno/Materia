@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:proto",
+      "amount": 1000.0
+    },
+    {
+      "type": "materia:denied",
+      "amount": 60.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:tadpole_spawn_egg"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:tadpole_spawn_egg"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

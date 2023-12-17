@@ -1,0 +1,39 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:aero",
+      "amount": 1080.0
+    },
+    {
+      "type": "materia:anima",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:proto",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:denied",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:elytra"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:elytra",
+        "tag": {
+          "Damage": 0
+        }
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

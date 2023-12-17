@@ -1,0 +1,40 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:krea",
+      "amount": 480.0
+    },
+    {
+      "type": "materia:vivo",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:hydro",
+      "amount": 480.0
+    },
+    {
+      "type": "materia:oricho",
+      "amount": 216.0
+    },
+    {
+      "type": "materia:denied",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:tadpole_bucket"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:tadpole_bucket"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

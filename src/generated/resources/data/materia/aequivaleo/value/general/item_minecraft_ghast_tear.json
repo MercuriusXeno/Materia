@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:anima",
+      "amount": 64.0
+    },
+    {
+      "type": "materia:gemma",
+      "amount": 64.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:ghast_tear"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:ghast_tear"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

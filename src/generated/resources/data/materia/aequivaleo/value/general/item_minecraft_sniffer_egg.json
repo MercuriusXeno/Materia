@@ -1,0 +1,32 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:proto",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:vivo",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:krea",
+      "amount": 480.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:sniffer_egg"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:sniffer_egg"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

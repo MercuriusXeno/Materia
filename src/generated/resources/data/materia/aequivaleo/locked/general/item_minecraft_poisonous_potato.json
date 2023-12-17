@@ -1,0 +1,32 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:chloro",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:myco",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:denied",
+      "amount": 60.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:poisonous_potato"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:poisonous_potato"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

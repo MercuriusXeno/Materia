@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:photo",
+      "amount": 64.0
+    },
+    {
+      "type": "materia:myco",
+      "amount": 384.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:shroomlight"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:shroomlight"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

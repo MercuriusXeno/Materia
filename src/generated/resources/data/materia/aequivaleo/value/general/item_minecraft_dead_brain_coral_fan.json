@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:chloro",
+      "amount": 60.0
+    },
+    {
+      "type": "materia:hydro",
+      "amount": 60.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:dead_brain_coral_fan"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:dead_brain_coral_fan"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

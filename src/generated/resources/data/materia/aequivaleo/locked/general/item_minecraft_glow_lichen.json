@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:photo",
+      "amount": 60.0
+    },
+    {
+      "type": "materia:chloro",
+      "amount": 60.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:glow_lichen"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:glow_lichen"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

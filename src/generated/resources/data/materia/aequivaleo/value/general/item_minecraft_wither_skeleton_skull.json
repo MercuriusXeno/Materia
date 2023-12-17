@@ -1,0 +1,32 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:krea",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:anima",
+      "amount": 480.0
+    },
+    {
+      "type": "materia:pyro",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:wither_skeleton_skull"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

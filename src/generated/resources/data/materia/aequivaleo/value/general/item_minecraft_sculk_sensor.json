@@ -1,0 +1,32 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:anima",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:myco",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:electro",
+      "amount": 480.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:sculk_sensor"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:sculk_sensor"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

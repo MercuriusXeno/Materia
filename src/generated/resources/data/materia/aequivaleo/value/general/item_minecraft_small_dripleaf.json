@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:chloro",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:vivo",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:small_dripleaf"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:small_dripleaf"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

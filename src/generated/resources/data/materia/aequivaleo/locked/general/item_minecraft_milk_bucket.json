@@ -1,0 +1,28 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:krea",
+      "amount": 60.0
+    },
+    {
+      "type": "materia:hydro",
+      "amount": 60.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:milk_bucket"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:milk_bucket"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}

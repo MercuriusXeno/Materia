@@ -1,0 +1,32 @@
+{
+  "compoundInstances": [
+    {
+      "type": "materia:hydro",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:chloro",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:photo",
+      "amount": 120.0
+    }
+  ],
+  "containers": [
+    {
+      "type": "aequivaleo:item",
+      "count": 1.0,
+      "item": "minecraft:sea_pickle"
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "count": 1.0,
+      "stack": {
+        "Count": 1,
+        "id": "minecraft:sea_pickle"
+      }
+    }
+  ],
+  "mode": "ADDITIVE"
+}
