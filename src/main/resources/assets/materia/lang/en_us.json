@@ -1,5 +1,7 @@
 {
 
 	"tooltip.materia.preface": "Materia Values",
-	"tooltip.materia.value": "%s: %s"
+	"tooltip.materia.value": "%s: %s",
+	"radial.materia.infusion_instructions_1": "Right Click:",
+	"radial.materia.infusion_instructions_2": "Infuse Materia"
 }

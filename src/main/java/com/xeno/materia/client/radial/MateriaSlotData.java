@@ -1,6 +1,6 @@
 package com.xeno.materia.client.radial;
 
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 
-public record MateriaSlotData(String name, int materia, ItemStack representative, Long amount, Long limit) {
+public record MateriaSlotData(String name, int materia, ResourceLocation spriteLocation, Long amount, Long limit) {
 }

@@ -1,6 +1,6 @@
 {
   "compounds": {
-    "type": "materia:dyna",
+    "type": "materia:vivo",
     "amount": 120.0
   },
   "mode": "ADDITIVE",

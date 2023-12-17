@@ -1,8 +1,8 @@
 package com.xeno.materia.common.packets;
 
 import com.xeno.materia.MateriaMod;
+import com.xeno.materia.client.radial.GuiRadialMenu;
 import com.xeno.materia.common.MateriaEnum;
-import com.xeno.materia.common.MateriaRegistry;
 import com.xeno.materia.common.capabilities.MateriaCapabilityImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -58,6 +58,9 @@ public class MateriaLimitUpdatePacket
 
             player.getCapability(MateriaCapabilityImpl.MATERIA)
                     .ifPresent(c -> c.setLimit(MateriaEnum.valueMap().get(message.materiaEnumValue), message.amount));
+            if (Minecraft.getInstance().screen instanceof GuiRadialMenu radial) {
+                radial.refreshSlots(player);
+            }
             MateriaMod.debug("limit+ " + MateriaEnum.valueMap().get(message.materiaEnumValue).name() + " " + message.amount);
         }
     }

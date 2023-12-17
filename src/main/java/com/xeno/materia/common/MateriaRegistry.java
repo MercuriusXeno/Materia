@@ -31,24 +31,26 @@ public class MateriaRegistry {
 	public static final DeferredRegister<ICompoundType> TYPES = DeferredRegister.create(AEQ_COMPOUND_TYPES_LOC, MateriaMod.ID);
 	public static final DeferredRegister<ICompoundTypeGroup> TYPE_GROUPS = DeferredRegister.create(AEQ_COMPOUND_TYPE_GROUPS_LOC, MateriaMod.ID);
 	public static final RegistryObject<MateriaCompoundTypeGroup> MATERIA_TYPES = TYPE_GROUPS.register("materia_types", MateriaCompoundTypeGroup::new);
-
+	public static final ResourceLocation VANILLA_GUI_ATLAS = new ResourceLocation("minecraft", "textures/atlas/gui.png");
 	private static RegistryObject<ICompoundType> registerMateria(String name, MateriaEnum materiaEnum, Item representativeItem)
 	{
 		RegistryObject<ICompoundType> result = TYPES
 				.register(name, () -> new MateriaCompoundType(materiaEnum, MATERIA_TYPES, representativeItem));
 		MATERIA.put(materiaEnum, result);
 		MATERIA_NAMES.put(result.getId(), materiaEnum);
+		MATERIA_ICON_NAMES.put(materiaEnum, MateriaMod.location(String.format("textures/gui/%s.png", name)));
 		return result;
 	}
 
 	public static final HashMap<MateriaEnum, RegistryObject<ICompoundType>> MATERIA = new HashMap<>();
 	public static final HashMap<ResourceLocation, MateriaEnum> MATERIA_NAMES = new HashMap<>();
+	public static final HashMap<MateriaEnum, ResourceLocation> MATERIA_ICON_NAMES = new HashMap<>();
 	public static final RegistryObject<ICompoundType> CRYO = registerMateria("cryo", MateriaEnum.CRYO, Items.SNOWBALL);
 	public static final RegistryObject<ICompoundType> PYRO = registerMateria("pyro", MateriaEnum.PYRO, Items.BLAZE_POWDER);
 	public static final RegistryObject<ICompoundType> MYCO = registerMateria("myco", MateriaEnum.MYCO, Items.BROWN_MUSHROOM);
 	public static final RegistryObject<ICompoundType> GEMMA = registerMateria("gemma", MateriaEnum.GEMMA, Items.DIAMOND);
 	public static final RegistryObject<ICompoundType> PHOTO = registerMateria("photo", MateriaEnum.PHOTO, Items.GLOW_INK_SAC);
-	public static final RegistryObject<ICompoundType> DYNA = registerMateria("dyna", MateriaEnum.DYNA, Items.GUNPOWDER);
+	public static final RegistryObject<ICompoundType> VIVO = registerMateria("vivo", MateriaEnum.VIVO, Items.GUNPOWDER);
 	public static final RegistryObject<ICompoundType> KREA = registerMateria("krea", MateriaEnum.KREA, Items.MUTTON);
 	public static final RegistryObject<ICompoundType> GEO = registerMateria("geo", MateriaEnum.GEO, Items.CLAY_BALL);
 	public static final RegistryObject<ICompoundType> ORICHO = registerMateria("oricho", MateriaEnum.ORICHO, Items.RAW_COPPER);
@@ -58,7 +60,7 @@ public class MateriaRegistry {
 	public static final RegistryObject<ICompoundType> XYLO = registerMateria("xylo", MateriaEnum.XYLO, Items.STRIPPED_OAK_LOG);
 	public static final RegistryObject<ICompoundType> CHLORO = registerMateria("chloro", MateriaEnum.CHLORO, Items.FERN);
 	public static final RegistryObject<ICompoundType> ELECTRO = registerMateria("electro", MateriaEnum.ELECTRO, Items.REDSTONE);
-	public static final RegistryObject<ICompoundType> PHASMO = registerMateria("phasmo", MateriaEnum.PHASMO, Items.GHAST_TEAR);
+	public static final RegistryObject<ICompoundType> ANIMA = registerMateria("anima", MateriaEnum.ANIMA, Items.GHAST_TEAR);
 	public static final RegistryObject<ICompoundType> DENIED = registerMateria("denied", MateriaEnum.DENIED, Items.AIR);
 
 	public static void init() {
@@ -75,6 +77,17 @@ public class MateriaRegistry {
     {
 		return MATERIA_NAMES.get(m.getType().getRegistryName());
     }
+
+    public static boolean isType(CompoundInstance compoundInstance, MateriaEnum type)
+    {
+		return MATERIA_NAMES.containsKey(compoundInstance.getType().getRegistryName()) &&
+			MATERIA_NAMES.get(compoundInstance.getType().getRegistryName()) == type;
+    }
+
+	public static MateriaEnum typeOf(CompoundInstance eq)
+	{
+		return MATERIA_NAMES.get(eq.getType().getRegistryName());
+	}
 
 //	// TEST ITEMS FOR CASTING A PROJECTILE FROM THE MATERIA
 //	public static final RegistryObject<Item> GEO_ITEM = ITEMS.register("geo_item", () -> new DebugProjectile(MateriaEnum.GEO));

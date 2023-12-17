@@ -1,0 +1,29 @@
+{
+  "compounds": [
+    {
+      "type": "materia:geo",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:xylo",
+      "amount": 60.0
+    }
+  ],
+  "mode": "ADDITIVE",
+  "targets": [
+    {
+      "type": "aequivaleo:item",
+      "data": {
+        "count": 1.0,
+        "item": "minecraft:rooted_dirt"
+      }
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "data": {
+        "count": 1.0,
+        "stack": "{Count:1b,id:\"minecraft:rooted_dirt\"}"
+      }
+    }
+  ]
+}

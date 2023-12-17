@@ -1,23 +1,31 @@
 package com.xeno.materia.client.keys;
 
+import com.ldtteam.aequivaleo.api.compound.CompoundInstance;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.sun.jna.platform.KeyboardUtils;
 import com.xeno.materia.MateriaMod;
+import com.xeno.materia.aeq.MateriaEquivalency;
 import com.xeno.materia.client.ClientUtils;
+import com.xeno.materia.common.MateriaEnum;
+import com.xeno.materia.common.MateriaRegistry;
+import com.xeno.materia.common.capabilities.MateriaCapability;
+import com.xeno.materia.common.capabilities.MateriaCapabilityImpl;
 import com.xeno.materia.common.packets.ConsumeItemPacket;
 import com.xeno.materia.common.packets.MateriaNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ScreenEvent;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.Set;
 
 public class MateriaControlKeyHandler
 {
@@ -43,7 +51,8 @@ public class MateriaControlKeyHandler
 
     public static void handleKeyEventOnScreens(ScreenEvent.KeyPressed pressedKeyEvent)
     {
-        if (Minecraft.getInstance().screen instanceof EffectRenderingInventoryScreen screen) {
+        if (Minecraft.getInstance().screen instanceof EffectRenderingInventoryScreen screen)
+        {
             handleCursorKeystroke(pressedKeyEvent.getKeyCode(), screen);
         }
     }
@@ -86,18 +95,54 @@ public class MateriaControlKeyHandler
      */
     private static void doConsumeItemEvent(EffectRenderingInventoryScreen screen)
     {
+        // we need a player
         var player = Minecraft.getInstance().player;
         if (player == null)
         {
             return;
         }
-        if (screen.getMenu().getCarried().isEmpty())
+        // there must be an item in the cursor
+        var itemHeld = screen.getMenu().getCarried();
+        if (itemHeld.isEmpty())
         {
             return;
         }
-        // The server has to assess if the player can consume the item.
-        // Capacity check and stuff, etc.
-        MateriaNetworking.sendToServer(new ConsumeItemPacket(player.isShiftKeyDown()));
+
+        // it must have an equivalency
+        var equivalency = MateriaEquivalency.getEquivalency(itemHeld);
+        if (equivalency.isEmpty())
+        {
+            return;
+        }
+
+        // if they're in creative mode's inventory there's strange client dominance
+        // resulting in held item not actually existing server side, which is neat, but
+        // just give the player materia. They're in creative. Stop wasting time.
+        if (screen instanceof CreativeModeInventoryScreen)
+        {
+            consumeItemInCreativeMode(player, equivalency);
+        } else
+        {
+            // The server has to assess if the player can consume the item by actually checking what they're holding.
+            // Capacity checks and stuff fire during the server side handling, a bunch of stuff that doesn't happen
+            // while creative mode is on.
+            MateriaNetworking.sendToServer(new ConsumeItemPacket(player.isShiftKeyDown()));
+        }
+    }
+
+    private static void consumeItemInCreativeMode(LocalPlayer player, Set<CompoundInstance> equivalency)
+    {
+        player.getCapability(MateriaCapabilityImpl.MATERIA)
+                .ifPresent(mc -> equivalency.forEach(eq -> givePlayerMateria(mc, eq)));
+        player.inventoryMenu.setCarried(ItemStack.EMPTY); // nullify the item
+    }
+
+    private static void givePlayerMateria(MateriaCapability mc, CompoundInstance eq)
+    {
+        if (MateriaRegistry.typeOf(eq) != MateriaEnum.DENIED)
+        {
+            mc.changeMateria(MateriaRegistry.typeOf(eq), eq.getAmount().longValue());
+        }
     }
 
     private static boolean isRightMouse(int button)

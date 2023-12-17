@@ -6,6 +6,7 @@ import com.xeno.materia.client.radial.GuiRadialMenu;
 import com.xeno.materia.client.radial.MateriaSlotData;
 import com.xeno.materia.client.radial.RadialMenu;
 import com.xeno.materia.client.radial.RadialMenuSlot;
+import com.xeno.materia.common.MateriaRegistry;
 import com.xeno.materia.common.capabilities.MateriaCapability;
 import com.xeno.materia.common.MateriaEnum;
 import com.xeno.materia.common.capabilities.MateriaCapabilityImpl;
@@ -61,7 +62,8 @@ public class RadialMenuKeyHandler
 
 	private static Screen makeRadialForSlots(List<RadialMenuSlot<MateriaSlotData>> slots)
 	{
-		return new GuiRadialMenu<>(new RadialMenu<>(AbilityKeyHandler::doSlotAssignment, slots, RenderUtils::drawItemAsIcon, 3));
+		return new GuiRadialMenu<>(new RadialMenu<>
+				(AbilityKeyHandler::doSlotAssignment, slots, RenderUtils::drawMateriaSlotIcon, 3));
 	}
 
 	public static List<RadialMenuSlot<MateriaSlotData>> getMateriaSlotDataFromPlayerCapability(Player player)
@@ -83,7 +85,7 @@ public class RadialMenuKeyHandler
 	{
 		// Base slots are those that are just materia-defined.
 		// They're not abilities, they're categories of abilities. You step into them.
-		var slotData = new MateriaSlotData(e.name(), e.getValue(), e.getRepresentative(), c.getMateria(e), c.getLimit(e));
-		return new RadialMenuSlot<>(e.name(), e.getDisplay(c), e.getPercent(c), slotData);
+		var slotData = new MateriaSlotData(e.name(), e.getValue(), MateriaRegistry.MATERIA_ICON_NAMES.get(e), c.getMateria(e), c.getLimit(e));
+		return new RadialMenuSlot<>(e.name(), e.getDisplay(c), e.getPercent(c), e.getPercentValue(c), e, slotData);
 	}
 }

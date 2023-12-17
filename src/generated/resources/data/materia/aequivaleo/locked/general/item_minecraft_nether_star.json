@@ -1,12 +1,12 @@
 {
   "compounds": [
     {
-      "type": "materia:denied",
-      "amount": 60.0
+      "type": "materia:anima",
+      "amount": 64.0
     },
     {
-      "type": "materia:phasmo",
-      "amount": 64.0
+      "type": "materia:denied",
+      "amount": 60.0
     },
     {
       "type": "materia:photo",

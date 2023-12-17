@@ -1,0 +1,41 @@
+{
+  "compounds": [
+    {
+      "type": "materia:denied",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:hydro",
+      "amount": 480.0
+    },
+    {
+      "type": "materia:krea",
+      "amount": 480.0
+    },
+    {
+      "type": "materia:oricho",
+      "amount": 216.0
+    },
+    {
+      "type": "materia:vivo",
+      "amount": 120.0
+    }
+  ],
+  "mode": "ADDITIVE",
+  "targets": [
+    {
+      "type": "aequivaleo:item",
+      "data": {
+        "count": 1.0,
+        "item": "minecraft:salmon_bucket"
+      }
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "data": {
+        "count": 1.0,
+        "stack": "{Count:1b,id:\"minecraft:salmon_bucket\"}"
+      }
+    }
+  ]
+}

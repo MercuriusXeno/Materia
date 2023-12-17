@@ -1,8 +1,8 @@
 package com.xeno.materia.common.packets;
 
 import com.xeno.materia.MateriaMod;
+import com.xeno.materia.client.radial.GuiRadialMenu;
 import com.xeno.materia.common.MateriaEnum;
-import com.xeno.materia.common.MateriaRegistry;
 import com.xeno.materia.common.capabilities.MateriaCapabilityImpl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -46,9 +46,13 @@ public class MateriaUpdatePacket
 
         private static void handle(MateriaUpdatePacket message)
         {
-            Optional.ofNullable(Minecraft.getInstance().player).ifPresent(player ->
-                player.getCapability(MateriaCapabilityImpl.MATERIA)
-                    .ifPresent(c -> c.setMateria(MateriaEnum.valueMap().get(message.materiaEnumValue), message.amount)));
+            Optional.ofNullable(Minecraft.getInstance().player).ifPresent(player -> {
+                        if (Minecraft.getInstance().screen instanceof GuiRadialMenu radial) {
+                            radial.refreshSlots(player);
+                            player.getCapability(MateriaCapabilityImpl.MATERIA)
+                                    .ifPresent(c -> c.setMateria(MateriaEnum.valueMap().get(message.materiaEnumValue), message.amount));
+                        }
+                    });
             MateriaMod.debug("updated " + MateriaEnum.valueMap().get(message.materiaEnumValue).name() + " " + message.amount);
         }
     }

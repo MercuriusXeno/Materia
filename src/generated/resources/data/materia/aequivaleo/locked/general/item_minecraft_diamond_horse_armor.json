@@ -1,0 +1,23 @@
+{
+  "compounds": {
+    "type": "materia:gemma",
+    "amount": 1944.0
+  },
+  "mode": "ADDITIVE",
+  "targets": [
+    {
+      "type": "aequivaleo:item",
+      "data": {
+        "count": 1.0,
+        "item": "minecraft:diamond_horse_armor"
+      }
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "data": {
+        "count": 1.0,
+        "stack": "{Count:1b,id:\"minecraft:diamond_horse_armor\"}"
+      }
+    }
+  ]
+}

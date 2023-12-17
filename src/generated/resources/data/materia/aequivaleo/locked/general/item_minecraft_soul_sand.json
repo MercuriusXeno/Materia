@@ -1,11 +1,11 @@
 {
   "compounds": [
     {
-      "type": "materia:gemma",
+      "type": "materia:anima",
       "amount": 120.0
     },
     {
-      "type": "materia:phasmo",
+      "type": "materia:gemma",
       "amount": 120.0
     }
   ],

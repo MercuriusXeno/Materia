@@ -4,7 +4,6 @@ import com.xeno.materia.common.capabilities.MateriaCapability;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public enum MateriaEnum implements Comparable<MateriaEnum>
     MYCO(2, new ItemStack(Blocks.MYCELIUM)),
     GEMMA(3, new ItemStack(Blocks.EMERALD_BLOCK)),
     PHOTO(4, new ItemStack(Blocks.GLOWSTONE)),
-    DYNA(5, new ItemStack(Blocks.TNT)),
+    VIVO(5, new ItemStack(Blocks.TNT)),
     KREA(6, new ItemStack(Blocks.BONE_BLOCK)),
     GEO(7, new ItemStack(Blocks.DIRT)),
     ORICHO(8, new ItemStack(Blocks.IRON_BLOCK)),
@@ -26,7 +25,7 @@ public enum MateriaEnum implements Comparable<MateriaEnum>
     XYLO(12, new ItemStack(Blocks.ACACIA_LOG)),
     CHLORO(13, new ItemStack(Blocks.ACACIA_LEAVES)),
     ELECTRO(14, new ItemStack(Blocks.REDSTONE_BLOCK)),
-    PHASMO(15, new ItemStack(Blocks.SOUL_SAND));
+    ANIMA(15, new ItemStack(Blocks.SOUL_SAND));
 
     private final int value;
     private final ItemStack representative;
@@ -90,5 +89,10 @@ public enum MateriaEnum implements Comparable<MateriaEnum>
     public String getToast(long amount, long limit)
     {
         return this.name() + " " + getDisplay(amount, limit);
+    }
+
+    public double getPercentValue(MateriaCapability c)
+    {
+        return c.getLimit(this) == 0d ? 0d : (double)c.getMateria(this) / (double)c.getLimit(this);
     }
 }

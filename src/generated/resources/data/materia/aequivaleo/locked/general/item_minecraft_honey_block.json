@@ -1,12 +1,12 @@
 {
   "compounds": [
     {
-      "type": "materia:dyna",
-      "amount": 60.0
-    },
-    {
       "type": "materia:krea",
       "amount": 480.0
+    },
+    {
+      "type": "materia:vivo",
+      "amount": 60.0
     }
   ],
   "mode": "ADDITIVE",

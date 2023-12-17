@@ -5,6 +5,7 @@ import com.ldtteam.aequivaleo.api.analysis.AnalysisState;
 import com.mojang.logging.LogUtils;
 import com.xeno.materia.client.MateriaTooltipEventHandler;
 import com.xeno.materia.common.MateriaConfig;
+import com.xeno.materia.common.MateriaRegistry;
 import com.xeno.materia.common.packets.MateriaNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -104,6 +106,11 @@ public class MateriaMod
         LOGGER.debug(joined);
     }
 
+    public static ResourceLocation mcLoc(String path)
+    {
+        return new ResourceLocation(path);
+    }
+
     private void commonSetup(final FMLCommonSetupEvent event)
     {
         // Some common setup code
@@ -144,6 +151,16 @@ public class MateriaMod
             // Some client setup code
             // LOGGER.info("HELLO FROM CLIENT SETUP");
             // LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        }
+
+        @SubscribeEvent
+        public static void onTextureStitch(TextureStitchEvent event) {
+            MateriaMod.debug(String.format("Confessing atlases for info. If someone left this in, shame them. %s",
+                    event.getAtlas()));
+            if (event.getAtlas().location().equals(MateriaRegistry.VANILLA_GUI_ATLAS)) {
+
+            }
+
         }
     }
 

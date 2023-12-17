@@ -1,15 +1,15 @@
 {
   "compounds": [
     {
-      "type": "materia:dyna",
-      "amount": 120.0
-    },
-    {
       "type": "materia:krea",
       "amount": 480.0
     },
     {
       "type": "materia:proto",
+      "amount": 120.0
+    },
+    {
+      "type": "materia:vivo",
       "amount": 120.0
     }
   ],

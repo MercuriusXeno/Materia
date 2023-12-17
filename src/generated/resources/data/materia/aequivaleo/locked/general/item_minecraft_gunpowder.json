@@ -1,11 +1,11 @@
 {
   "compounds": [
     {
-      "type": "materia:dyna",
-      "amount": 120.0
+      "type": "materia:pyro",
+      "amount": 40.0
     },
     {
-      "type": "materia:pyro",
+      "type": "materia:vivo",
       "amount": 120.0
     }
   ],

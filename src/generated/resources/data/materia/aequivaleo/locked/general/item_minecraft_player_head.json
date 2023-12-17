@@ -1,0 +1,23 @@
+{
+  "compounds": {
+    "type": "materia:krea",
+    "amount": 120.0
+  },
+  "mode": "ADDITIVE",
+  "targets": [
+    {
+      "type": "aequivaleo:item",
+      "data": {
+        "count": 1.0,
+        "item": "minecraft:player_head"
+      }
+    },
+    {
+      "type": "aequivaleo:itemstack",
+      "data": {
+        "count": 1.0,
+        "stack": "{Count:1b,id:\"minecraft:player_head\"}"
+      }
+    }
+  ]
+}
