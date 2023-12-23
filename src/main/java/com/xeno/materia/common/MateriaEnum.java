@@ -1,5 +1,7 @@
 package com.xeno.materia.common;
 
+import com.xeno.materia.client.radial.MateriaSlotData;
+import com.xeno.materia.client.radial.RadialMenuSlot;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringRepresentable;
@@ -12,10 +14,10 @@ import java.util.Map;
 
 public enum MateriaEnum implements Comparable<MateriaEnum>, StringRepresentable
 {
-    DENIED(-1, ItemStack.EMPTY), CRYO(0, new ItemStack(Blocks.BLUE_ICE)), PYRO(1, new ItemStack(Blocks.MAGMA_BLOCK)), MYCO(2, new ItemStack(Blocks.MYCELIUM)), GEMMA(3, new ItemStack(Blocks.EMERALD_BLOCK)), PHOTO(4, new ItemStack(Blocks.GLOWSTONE)), VIVO(5, new ItemStack(Blocks.TNT)), KREA(6, new ItemStack(Blocks.BONE_BLOCK)), GEO(7, new ItemStack(Blocks.DIRT)), ORICHO(8, new ItemStack(Blocks.IRON_BLOCK)), PROTO(9, new ItemStack(Blocks.ANCIENT_DEBRIS)), AERO(10, new ItemStack(Blocks.PURPUR_PILLAR)), HYDRO(11, new ItemStack(Blocks.PRISMARINE)), XYLO(12, new ItemStack(Blocks.ACACIA_LOG)), CHLORO(13, new ItemStack(Blocks.ACACIA_LEAVES)), ELECTRO(14, new ItemStack(Blocks.REDSTONE_BLOCK)), ANIMA(15, new ItemStack(Blocks.SOUL_SAND));
+    DENIED(-1), CRYO(0), PYRO(1), MYCO(2), GEMMA(3), PHOTO(4), VIVO(5), KREA(6), GEO(7),
+    ORICHO(8), PROTO(9), AERO(10), HYDRO(11), XYLO(12), CHLORO(13), ELECTRO(14), ANIMA(15);
 
     private final int value;
-    public static final MateriaEnum[] values = values();
     private static final Map<Integer, MateriaEnum> valueMap = new HashMap<>();
 
     public static Map<Integer, MateriaEnum> valueMap()
@@ -52,7 +54,7 @@ public enum MateriaEnum implements Comparable<MateriaEnum>, StringRepresentable
         return player.getData(MateriaRegistry.MATERIA_STOCK_ATTACHMENTS.get(this));
     }
 
-    MateriaEnum(int value, ItemStack representative)
+    MateriaEnum(int value)
     {
         this.value = value;
     }
@@ -105,10 +107,11 @@ public enum MateriaEnum implements Comparable<MateriaEnum>, StringRepresentable
 
     public void spendMateriaOnLimit(LocalPlayer player)
     {
-        var stockNeeded = (long)Math.ceil(getLimit(player) * MateriaConfig.materiaLimitCost);
-        if (getStock(player) >= stockNeeded) {
+        var stockNeeded = (long) Math.ceil(getLimit(player) * MateriaConfig.materiaLimitCost);
+        if (getStock(player) >= stockNeeded)
+        {
             changeMateria(player, -stockNeeded);
-            changeLimit(player, MateriaConfig.materiaLimitStep);
+            changeLimit(player, getLimit(player) + MateriaConfig.materiaLimitStep);
         }
     }
 
@@ -121,5 +124,13 @@ public enum MateriaEnum implements Comparable<MateriaEnum>, StringRepresentable
     public ResourceLocation texture()
     {
         return MateriaRegistry.MATERIA_ICON_NAMES.get(this);
+    }
+
+    public RadialMenuSlot<MateriaSlotData> makeRadialSlot(Player p)
+    {
+        // Base slots are those that are just materia-defined.
+        // They're not abilities, they're categories of abilities. You step into them.
+        var slotData = new MateriaSlotData(this.name(), this.getValue(), MateriaRegistry.MATERIA_ICON_NAMES.get(this), this.getStock(p), this.getLimit(p));
+        return new RadialMenuSlot<>(this.name(), this.getDisplay(p), this.getPercent(p), this.getPercentValue(p), this, slotData);
     }
 }

@@ -56,19 +56,20 @@ public class MateriaRegistry {
     public static final HashMap<MateriaEnum, Supplier<AttachmentType<Long>>> MATERIA_LIMIT_ATTACHMENTS = new HashMap<>();
     public static final HashMap<MateriaEnum, Supplier<AttachmentType<Long>>> MATERIA_STOCK_ATTACHMENTS = new HashMap<>();
 
-    // the vanilla texture atlas for GUIs in case I need it, but I'm pretty sure I stopped needing it? I can't remember
-    public static final ResourceLocation VANILLA_GUI_ATLAS = MateriaMod.mcLoc(MateriaNames.VANILLA_GUI_ATLAS);
-
-    private static DeferredHolder<ICompoundType, MateriaCompoundType> registerMateria(String name, MateriaEnum materiaEnum, Item representativeItem) {
+    private static DeferredHolder<ICompoundType, MateriaCompoundType> registerMateria(String name, MateriaEnum materiaEnum) {
         DeferredHolder<ICompoundType, MateriaCompoundType> result = TYPES
                 .register(name, () -> new MateriaCompoundType(materiaEnum, MATERIA_TYPE));
         MATERIA.put(materiaEnum, result);
         MATERIA_NAMES.put(result.getId(), materiaEnum);
-        MATERIA_ICON_NAMES.put(materiaEnum, MateriaMod.location(String.format("textures/gui/%s.png", name)));
-        MATERIA_LIMIT_ATTACHMENTS.put(materiaEnum, ATTACHMENT_TYPES.register(String.format("%s_limit", name),
-                () -> AttachmentType.<Long>builder(() -> 0L).serialize(Codec.LONG).copyOnDeath().build()));
-        MATERIA_STOCK_ATTACHMENTS.put(materiaEnum, ATTACHMENT_TYPES.register(String.format("%s_stock", name),
-                () -> AttachmentType.<Long>builder(() -> 0L).serialize(Codec.LONG).copyOnDeath().build()));
+        MATERIA_ICON_NAMES.put(materiaEnum, MateriaMod.location(String.format("%s", name)));
+        // deny.. denied. Don't give it a data attachment, it isn't a real materia type
+        // if (materiaEnum != MateriaEnum.DENIED)
+        // {
+            MATERIA_LIMIT_ATTACHMENTS.put(materiaEnum, ATTACHMENT_TYPES
+                    .register(String.format("%s_limit", name), () -> AttachmentType.<Long>builder(() -> 0L).serialize(Codec.LONG).copyOnDeath().build()));
+            MATERIA_STOCK_ATTACHMENTS.put(materiaEnum, ATTACHMENT_TYPES
+                    .register(String.format("%s_stock", name), () -> AttachmentType.<Long>builder(() -> 0L).serialize(Codec.LONG).copyOnDeath().build()));
+        // }
         return result;
     }
 
@@ -77,23 +78,23 @@ public class MateriaRegistry {
     public static final HashMap<MateriaEnum, DeferredHolder<ICompoundType, MateriaCompoundType>> MATERIA = new HashMap<>();
     public static final HashMap<ResourceLocation, MateriaEnum> MATERIA_NAMES = new HashMap<>();
     public static final HashMap<MateriaEnum, ResourceLocation> MATERIA_ICON_NAMES = new HashMap<>();
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> CRYO = registerMateria("cryo", MateriaEnum.CRYO, Items.SNOWBALL);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> PYRO = registerMateria("pyro", MateriaEnum.PYRO, Items.BLAZE_POWDER);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> MYCO = registerMateria("myco", MateriaEnum.MYCO, Items.BROWN_MUSHROOM);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> GEMMA = registerMateria("gemma", MateriaEnum.GEMMA, Items.DIAMOND);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> PHOTO = registerMateria("photo", MateriaEnum.PHOTO, Items.GLOW_INK_SAC);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> VIVO = registerMateria("vivo", MateriaEnum.VIVO, Items.GUNPOWDER);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> KREA = registerMateria("krea", MateriaEnum.KREA, Items.MUTTON);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> GEO = registerMateria("geo", MateriaEnum.GEO, Items.CLAY_BALL);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> ORICHO = registerMateria("oricho", MateriaEnum.ORICHO, Items.RAW_COPPER);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> PROTO = registerMateria("proto", MateriaEnum.PROTO, Items.NETHERITE_SCRAP);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> AERO = registerMateria("aero", MateriaEnum.AERO, Items.ENDER_PEARL);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> HYDRO = registerMateria("hydro", MateriaEnum.HYDRO, Items.WATER_BUCKET);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> XYLO = registerMateria("xylo", MateriaEnum.XYLO, Items.STRIPPED_OAK_LOG);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> CHLORO = registerMateria("chloro", MateriaEnum.CHLORO, Items.FERN);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> ELECTRO = registerMateria("electro", MateriaEnum.ELECTRO, Items.REDSTONE);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> ANIMA = registerMateria("anima", MateriaEnum.ANIMA, Items.GHAST_TEAR);
-    public static final DeferredHolder<ICompoundType, MateriaCompoundType> DENIED = registerMateria("denied", MateriaEnum.DENIED, Items.AIR);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> CRYO = registerMateria("cryo", MateriaEnum.CRYO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> PYRO = registerMateria("pyro", MateriaEnum.PYRO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> MYCO = registerMateria("myco", MateriaEnum.MYCO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> GEMMA = registerMateria("gemma", MateriaEnum.GEMMA);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> PHOTO = registerMateria("photo", MateriaEnum.PHOTO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> VIVO = registerMateria("vivo", MateriaEnum.VIVO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> KREA = registerMateria("krea", MateriaEnum.KREA);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> GEO = registerMateria("geo", MateriaEnum.GEO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> ORICHO = registerMateria("oricho", MateriaEnum.ORICHO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> PROTO = registerMateria("proto", MateriaEnum.PROTO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> AERO = registerMateria("aero", MateriaEnum.AERO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> HYDRO = registerMateria("hydro", MateriaEnum.HYDRO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> XYLO = registerMateria("xylo", MateriaEnum.XYLO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> CHLORO = registerMateria("chloro", MateriaEnum.CHLORO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> ELECTRO = registerMateria("electro", MateriaEnum.ELECTRO);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> ANIMA = registerMateria("anima", MateriaEnum.ANIMA);
+    public static final DeferredHolder<ICompoundType, MateriaCompoundType> DENIED = registerMateria("denied", MateriaEnum.DENIED);
 
     // creative tab
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MateriaMod.ID);

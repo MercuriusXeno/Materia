@@ -15,7 +15,6 @@ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.client.event.InputEvent;
@@ -62,7 +61,7 @@ public class MateriaControlKeyHandler
             MateriaMod.debug("Consume key down during click");
             doConsumeItemEvent(screen);
         }
-        // let's say the user is really dumb and is trying to hold both keys at once, make these mutually exclusive.
+        // let's say the user is trying to hold both keys at once, make these mutually exclusive.
         else if (isKeyDown(ModKeyBindings.CREATE_KEY))
         {
             MateriaMod.debug("Create key down during click");
@@ -119,7 +118,7 @@ public class MateriaControlKeyHandler
         // just give the player materia. They're in creative. Stop wasting time.
         if (screen instanceof CreativeModeInventoryScreen)
         {
-            consumeItemInCreativeMode(player, equivalency);
+            rewardMateriaInCreativeMode(player, equivalency);
         }
         else
         {
@@ -130,10 +129,10 @@ public class MateriaControlKeyHandler
         }
     }
 
-    private static void consumeItemInCreativeMode(LocalPlayer player, Set<CompoundInstance> equivalency)
+    private static void rewardMateriaInCreativeMode(LocalPlayer player, Set<CompoundInstance> equivalency)
     {
         equivalency.forEach(eq -> givePlayerMateria(player, eq));
-        player.inventoryMenu.setCarried(ItemStack.EMPTY); // nullify the item
+        // player.inventoryMenu.setCarried(ItemStack.EMPTY); // nullify the item
     }
 
     private static void givePlayerMateria(Player p, CompoundInstance eq)
@@ -161,6 +160,7 @@ public class MateriaControlKeyHandler
 
     private static void doCreateItemEvent(EffectRenderingInventoryScreen screen)
     {
+        // TODO
     }
 
     private static boolean isConsumeKey(int key)

@@ -105,13 +105,12 @@ public class GuiRadialMenu<T> extends Screen
         extraTick = 0;
         prevTick = currTick;
 
-
         float animProgress = Mth.clamp(openAnimation, 0, 1);
         animProgress = (float) (1 - Math.pow(1 - animProgress, 3));
-        float radiusIn = Math.max(0.1f, 45 * animProgress);
-        float radiusOut = radiusIn * 2;
-        float itemRadius = (radiusIn + radiusOut) * 0.5f;
-        float percentRadius = (radiusIn + radiusOut) * 0.75f;
+        float radiusIn = Math.max(0.1f, 50 * animProgress);
+        float radiusOut = radiusIn * 2f;
+        float iconCenterRadius = (radiusIn + radiusOut) * 0.5f;
+        float percentFilledRadius = (radiusIn + radiusOut) * 0.75f;
 
         int centerOfScreenX = width / 2;
         int centerOfScreenY = height / 2;
@@ -119,7 +118,7 @@ public class GuiRadialMenu<T> extends Screen
 
         double mousePositionInDegreesInRelationToCenterOfScreen = Math.toDegrees(Math.atan2(mouseY - centerOfScreenY, mouseX - centerOfScreenX));
         double mouseDistanceToCenterOfScreen = Math.sqrt(Math.pow(mouseX - centerOfScreenX, 2) + Math.pow(mouseY - centerOfScreenY, 2));
-        float slot0 = (((0 - 0.5f) / (float) numberOfSlices) + 0.25f) * 360;
+        float slot0 = (((-0.5f) / (float) numberOfSlices) + 0.25f) * 360;
         if (mousePositionInDegreesInRelationToCenterOfScreen < slot0)
         {
             mousePositionInDegreesInRelationToCenterOfScreen += 360;
@@ -169,7 +168,6 @@ public class GuiRadialMenu<T> extends Screen
 
         tessellator.end();
         RenderSystem.disableBlend();
-        // this used to be lower (~177 but I found I needed it to avoid some weird zfighting on the %s and text showing)
         RenderSystem.disableDepthTest();
         if (hasMouseOver && mousedOverSlot != -1)
         {
@@ -200,29 +198,27 @@ public class GuiRadialMenu<T> extends Screen
             {
                 angle1 += Math.PI / numberOfSlices;
             }
-            float posX = centerOfScreenX - 8 + itemRadius * (float) Math.cos(angle1);
-            float posY = centerOfScreenY - 8 + itemRadius * (float) Math.sin(angle1);
-            float percentPosX = centerOfScreenX - 8 + percentRadius * (float) Math.cos(angle1);
-            float percentPosY = centerOfScreenY - 8 + percentRadius * (float) Math.sin(angle1);
+            float posX = centerOfScreenX + iconCenterRadius * (float) Math.cos(angle1);
+            float posY = centerOfScreenY + iconCenterRadius * (float) Math.sin(angle1);
+            float percentPosX = centerOfScreenX + percentFilledRadius * (float) Math.cos(angle1);
+            float percentPosY = centerOfScreenY - (font.lineHeight / 2f) + percentFilledRadius * (float) Math.sin(angle1);
             // offset the percent coords because centered strings seem to align to the bottom rightmost pixel
             // of the string rather than, as the name implies, centering them? I don't really understand why
             // this is named centered. It's not even remotely centered on the coords provided, that's not what it does.
             // so the offset by half the font width again seems to fix this dumb bullshit, but I kind of hate it here.
-            graphics.drawCenteredString(font, radialMenuSlots.get(i).percent(),
-                    (int) percentPosX + (font.width(radialMenuSlots.get(i).percent()) / 2),
-                    (int) percentPosY + (font.lineHeight / 2), 16777215);
+            graphics.drawCenteredString(font, radialMenuSlots.get(i).percent(), (int) percentPosX, (int) percentPosY, 0xffffffff);
             T primarySlotIcon = radialMenuSlots.get(i).primarySlotIcon();
             List<T> secondarySlotIcons = radialMenuSlots.get(i).secondarySlotIcons();
             if (primarySlotIcon != null)
             {
-                radialMenu.drawIcon(primarySlotIcon, graphics, (int) posX, (int) posY, 16);
+                radialMenu.drawIcon(primarySlotIcon, graphics, (int) posX, (int) posY, 64);
                 if (secondarySlotIcons != null && !secondarySlotIcons.isEmpty())
                 {
                     drawSecondaryIcons(graphics, (int) posX, (int) posY, secondarySlotIcons);
                 }
             }
             ms.pushPose();
-            ms.translate(0, 0, 9999);
+            ms.translate(0, 0, 20);
             drawSliceName(graphics, String.valueOf(i + 1), (int) posX, (int) posY);
             ms.popPose();
         }
@@ -297,7 +293,12 @@ public class GuiRadialMenu<T> extends Screen
             // right click spends a full materia bar to increase your cap by 1.
             if (mouseButton == InputConstants.MOUSE_BUTTON_RIGHT) {
                 radialMenu.setCurrentSlot(selectedItem);
-                MateriaEnum.valueMap().get(selectedItem).spendMateriaOnLimit(Minecraft.getInstance().player);
+                if (Minecraft.getInstance().player != null)
+                {
+                    var e = MateriaEnum.valueMap().get(selectedItem);
+                    e.spendMateriaOnLimit(Minecraft.getInstance().player);
+                    refreshSlots(Minecraft.getInstance().player, e);
+                }
             }
         }
         return true;
@@ -340,11 +341,11 @@ public class GuiRadialMenu<T> extends Screen
         return false;
     }
 
-    public void refreshSlots(Player pl)
+    public void refreshSlots(Player pl, MateriaEnum e)
     {
-        // it's pretty easy to just redraw them all
-        pl.closeContainer();
-        RadialMenuKeyHandler.openRadial(pl);
+        radialMenuSlots.remove(e.getValue());
+        //noinspection unchecked
+        radialMenuSlots.add(e.getValue(), (RadialMenuSlot<T>) e.makeRadialSlot(pl));
     }
 }
 

@@ -68,16 +68,22 @@ public class RadialMenuKeyHandler
         var result = new ArrayList<RadialMenuSlot<MateriaSlotData>>();
         for (var e : MateriaEnum.values())
         {
-            result.add(makeRadialSlot(player, e));
+            // don't draw a slot for denied materia, it isn't real. It can't hurt you.
+            if (e == MateriaEnum.DENIED) {
+                continue;
+            }
+            result.add(e.makeRadialSlot(player));
         }
         return result;
     }
 
-    private static RadialMenuSlot<MateriaSlotData> makeRadialSlot(Player p, MateriaEnum e)
+    private static boolean isAttachmentMissing(MateriaEnum e)
     {
-        // Base slots are those that are just materia-defined.
-        // They're not abilities, they're categories of abilities. You step into them.
-        var slotData = new MateriaSlotData(e.name(), e.getValue(), MateriaRegistry.MATERIA_ICON_NAMES.get(e), e.getStock(p), e.getLimit(p));
-        return new RadialMenuSlot<>(e.name(), e.getDisplay(p), e.getPercent(p), e.getPercentValue(p), e, slotData);
+        return !MateriaRegistry.MATERIA_LIMIT_ATTACHMENTS.containsKey(e) || !MateriaRegistry.MATERIA_STOCK_ATTACHMENTS.containsKey(e);
+    }
+
+    private static boolean isPlayerMissingAttachment(Player player, MateriaEnum e)
+    {
+        return !player.hasData(MateriaRegistry.MATERIA_LIMIT_ATTACHMENTS.get(e)) || !player.hasData(MateriaRegistry.MATERIA_STOCK_ATTACHMENTS.get(e));
     }
 }
